@@ -1,0 +1,972 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "name": "Admin User",
+      "email": "admin@nakowa.com",
+      "role": "admin",
+      "pin": "1234",
+      "avatar": null,
+      "active": true
+    },
+    {
+      "id": "u2",
+      "name": "Amaka Obi",
+      "email": "amaka@nakowa.com",
+      "role": "cashier",
+      "pin": "2222",
+      "avatar": null,
+      "active": true
+    },
+    {
+      "id": "u3",
+      "name": "Chidi Nwosu",
+      "email": "chidi@nakowa.com",
+      "role": "waiter",
+      "pin": "3333",
+      "avatar": null,
+      "active": true
+    },
+    {
+      "id": "u4",
+      "name": "Fatima Bello",
+      "email": "fatima@nakowa.com",
+      "role": "kitchen",
+      "pin": "4444",
+      "avatar": null,
+      "active": true
+    },
+    {
+      "id": "u5",
+      "name": "Segun Adeyemi",
+      "email": "segun@nakowa.com",
+      "role": "manager",
+      "pin": "5555",
+      "avatar": null,
+      "active": true
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "name": "Table 1",
+      "capacity": 4,
+      "status": "available"
+    },
+    {
+      "id": "t2",
+      "name": "Table 2",
+      "capacity": 6,
+      "status": "available"
+    },
+    {
+      "id": "t3",
+      "name": "Table 3",
+      "capacity": 2,
+      "status": "available"
+    },
+    {
+      "id": "t4",
+      "name": "Table 4",
+      "capacity": 8,
+      "status": "reserved"
+    },
+    {
+      "id": "t5",
+      "name": "Table 5",
+      "capacity": 4,
+      "status": "available"
+    },
+    {
+      "id": "t6",
+      "name": "VIP Room",
+      "capacity": 12,
+      "status": "available"
+    }
+  ],
+  "categories": [
+    {
+      "id": "c1",
+      "name": "Main Foods",
+      "icon": "🍽️",
+      "sortOrder": 1
+    },
+    {
+      "id": "c2",
+      "name": "Rice Dishes",
+      "icon": "🍚",
+      "sortOrder": 2
+    },
+    {
+      "id": "c3",
+      "name": "Soups & Swallow",
+      "icon": "🍲",
+      "sortOrder": 3
+    },
+    {
+      "id": "c4",
+      "name": "Grills & Proteins",
+      "icon": "🍗",
+      "sortOrder": 4
+    },
+    {
+      "id": "c5",
+      "name": "Snacks",
+      "icon": "🥐",
+      "sortOrder": 5
+    },
+    {
+      "id": "c6",
+      "name": "Soft Drinks",
+      "icon": "🥤",
+      "sortOrder": 6
+    },
+    {
+      "id": "c7",
+      "name": "Hot Drinks",
+      "icon": "☕",
+      "sortOrder": 7
+    },
+    {
+      "id": "c8",
+      "name": "Desserts",
+      "icon": "🍰",
+      "sortOrder": 8
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "m1",
+      "categoryId": "c1",
+      "name": "Complete Meal (Chicken + Rice + Salad)",
+      "price": 5500,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 15,
+      "image": "🍽️"
+    },
+    {
+      "id": "m2",
+      "categoryId": "c1",
+      "name": "Complete Meal (Fish + Rice + Salad)",
+      "price": 6500,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 15,
+      "image": "🍽️"
+    },
+    {
+      "id": "m3",
+      "categoryId": "c1",
+      "name": "Complete Meal (Beef + Rice + Salad)",
+      "price": 7000,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 20,
+      "image": "🍽️"
+    },
+    {
+      "id": "m4",
+      "categoryId": "c2",
+      "name": "Jollof Rice",
+      "price": 2500,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 10,
+      "image": "🍚"
+    },
+    {
+      "id": "m5",
+      "categoryId": "c2",
+      "name": "Fried Rice",
+      "price": 2500,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 10,
+      "image": "🍚"
+    },
+    {
+      "id": "m6",
+      "categoryId": "c2",
+      "name": "White Rice & Stew",
+      "price": 2000,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 8,
+      "image": "🍚"
+    },
+    {
+      "id": "m7",
+      "categoryId": "c2",
+      "name": "Coconut Rice",
+      "price": 3000,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 12,
+      "image": "🍚"
+    },
+    {
+      "id": "m8",
+      "categoryId": "c2",
+      "name": "Fried Yam & Sauce",
+      "price": 2200,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 10,
+      "image": "🍠"
+    },
+    {
+      "id": "m9",
+      "categoryId": "c3",
+      "name": "Egusi Soup + Eba",
+      "price": 3000,
+      "unit": "portion",
+      "available": true,
+      "prepTime": 15,
+      "image": "🍲"
+    },
+    {
+      "id": "m10",
+      "categoryId": "c3",
+      "name": "Ogbono Soup + Fufu",
+      "price": 3000,
+      "unit": "portion",
+      "available": true,
+      "prepTime": 15,
+      "image": "🍲"
+    },
+    {
+      "id": "m11",
+      "categoryId": "c3",
+      "name": "Pepper Soup (Mixed)",
+      "price": 3500,
+      "unit": "bowl",
+      "available": true,
+      "prepTime": 12,
+      "image": "🍲"
+    },
+    {
+      "id": "m12",
+      "categoryId": "c3",
+      "name": "Tomato Soup + Eba",
+      "price": 2500,
+      "unit": "bowl",
+      "available": true,
+      "prepTime": 10,
+      "image": "🍲"
+    },
+    {
+      "id": "m13",
+      "categoryId": "c3",
+      "name": "Afang Soup + Fufu",
+      "price": 3500,
+      "unit": "portion",
+      "available": true,
+      "prepTime": 15,
+      "image": "🍲"
+    },
+    {
+      "id": "m14",
+      "categoryId": "c4",
+      "name": "Grilled Chicken (1 piece)",
+      "price": 4500,
+      "unit": "piece",
+      "available": true,
+      "prepTime": 20,
+      "image": "🍗"
+    },
+    {
+      "id": "m15",
+      "categoryId": "c4",
+      "name": "Grilled Fish (Large)",
+      "price": 5000,
+      "unit": "piece",
+      "available": true,
+      "prepTime": 20,
+      "image": "🐟"
+    },
+    {
+      "id": "m16",
+      "categoryId": "c4",
+      "name": "Pepper Steak",
+      "price": 5500,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 25,
+      "image": "🥩"
+    },
+    {
+      "id": "m17",
+      "categoryId": "c4",
+      "name": "Suya (250g)",
+      "price": 3000,
+      "unit": "wrap",
+      "available": true,
+      "prepTime": 15,
+      "image": "🌯"
+    },
+    {
+      "id": "m18",
+      "categoryId": "c4",
+      "name": "BBQ Ribs",
+      "price": 6000,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 25,
+      "image": "🍖"
+    },
+    {
+      "id": "m19",
+      "categoryId": "c4",
+      "name": "Fried Chicken (2 pieces)",
+      "price": 3500,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 12,
+      "image": "🍗"
+    },
+    {
+      "id": "m20",
+      "categoryId": "c5",
+      "name": "Spring Rolls (6pcs)",
+      "price": 2000,
+      "unit": "pack",
+      "available": true,
+      "prepTime": 10,
+      "image": "🥐"
+    },
+    {
+      "id": "m21",
+      "categoryId": "c5",
+      "name": "Samosa (4pcs)",
+      "price": 1500,
+      "unit": "pack",
+      "available": true,
+      "prepTime": 8,
+      "image": "🥟"
+    },
+    {
+      "id": "m22",
+      "categoryId": "c5",
+      "name": "Puff Puff (6pcs)",
+      "price": 1000,
+      "unit": "pack",
+      "available": true,
+      "prepTime": 5,
+      "image": "🍡"
+    },
+    {
+      "id": "m23",
+      "categoryId": "c5",
+      "name": "Meat Pie (2pcs)",
+      "price": 1800,
+      "unit": "pack",
+      "available": true,
+      "prepTime": 8,
+      "image": "🥧"
+    },
+    {
+      "id": "m24",
+      "categoryId": "c5",
+      "name": "Chin Chin (Cup)",
+      "price": 800,
+      "unit": "cup",
+      "available": true,
+      "prepTime": 2,
+      "image": "🥐"
+    },
+    {
+      "id": "m25",
+      "categoryId": "c5",
+      "name": "Akara & Bread",
+      "price": 1200,
+      "unit": "plate",
+      "available": true,
+      "prepTime": 5,
+      "image": "🍞"
+    },
+    {
+      "id": "m26",
+      "categoryId": "c5",
+      "name": "Scotch Egg (2pcs)",
+      "price": 1500,
+      "unit": "pack",
+      "available": true,
+      "prepTime": 8,
+      "image": "🥚"
+    },
+    {
+      "id": "m27",
+      "categoryId": "c6",
+      "name": "Chapman",
+      "price": 1500,
+      "unit": "glass",
+      "available": true,
+      "prepTime": 3,
+      "image": "🥤"
+    },
+    {
+      "id": "m28",
+      "categoryId": "c6",
+      "name": "Zobo (500ml)",
+      "price": 800,
+      "unit": "bottle",
+      "available": true,
+      "prepTime": 2,
+      "image": "🥤"
+    },
+    {
+      "id": "m29",
+      "categoryId": "c6",
+      "name": "Soft Drink (Bottle)",
+      "price": 500,
+      "unit": "bottle",
+      "available": true,
+      "prepTime": 1,
+      "image": "🥤"
+    },
+    {
+      "id": "m30",
+      "categoryId": "c6",
+      "name": "Mineral Water (500ml)",
+      "price": 300,
+      "unit": "bottle",
+      "available": true,
+      "prepTime": 1,
+      "image": "💧"
+    },
+    {
+      "id": "m31",
+      "categoryId": "c6",
+      "name": "Chilled Beer",
+      "price": 1200,
+      "unit": "bottle",
+      "available": true,
+      "prepTime": 2,
+      "image": "🍺"
+    },
+    {
+      "id": "m32",
+      "categoryId": "c6",
+      "name": "Energy Drink",
+      "price": 900,
+      "unit": "bottle",
+      "available": true,
+      "prepTime": 1,
+      "image": "🥤"
+    },
+    {
+      "id": "m33",
+      "categoryId": "c6",
+      "name": "Fresh Juice (Mixed)",
+      "price": 1800,
+      "unit": "glass",
+      "available": true,
+      "prepTime": 5,
+      "image": "🧃"
+    },
+    {
+      "id": "m34",
+      "categoryId": "c7",
+      "name": "Coffee (Hot)",
+      "price": 700,
+      "unit": "cup",
+      "available": true,
+      "prepTime": 5,
+      "image": "☕"
+    },
+    {
+      "id": "m35",
+      "categoryId": "c7",
+      "name": "Tea (Hot)",
+      "price": 500,
+      "unit": "cup",
+      "available": true,
+      "prepTime": 4,
+      "image": "🫖"
+    },
+    {
+      "id": "m36",
+      "categoryId": "c7",
+      "name": "Hot Chocolate",
+      "price": 1000,
+      "unit": "cup",
+      "available": true,
+      "prepTime": 5,
+      "image": "☕"
+    },
+    {
+      "id": "m37",
+      "categoryId": "c7",
+      "name": "Milo (Hot)",
+      "price": 600,
+      "unit": "cup",
+      "available": true,
+      "prepTime": 4,
+      "image": "☕"
+    },
+    {
+      "id": "m38",
+      "categoryId": "c8",
+      "name": "Cheesecake Slice",
+      "price": 2500,
+      "unit": "slice",
+      "available": true,
+      "prepTime": 3,
+      "image": "🍰"
+    },
+    {
+      "id": "m39",
+      "categoryId": "c8",
+      "name": "Chocolate Cake",
+      "price": 2000,
+      "unit": "slice",
+      "available": true,
+      "prepTime": 2,
+      "image": "🍰"
+    },
+    {
+      "id": "m40",
+      "categoryId": "c8",
+      "name": "Ice Cream (3 scoops)",
+      "price": 1500,
+      "unit": "bowl",
+      "available": true,
+      "prepTime": 2,
+      "image": "🍦"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-001",
+      "orderNumber": "ORD-001",
+      "type": "dine-in",
+      "tableId": "t2",
+      "tableName": "Table 2",
+      "waiterId": "u3",
+      "waiterName": "Chidi Nwosu",
+      "status": "completed",
+      "kitchenStatus": "ready",
+      "paymentStatus": "paid",
+      "items": [
+        {
+          "menuItemId": "m1",
+          "name": "Jollof Rice",
+          "qty": 2,
+          "price": 2500,
+          "note": ""
+        },
+        {
+          "menuItemId": "m9",
+          "name": "Grilled Fish",
+          "qty": 1,
+          "price": 5000,
+          "note": "extra pepper"
+        }
+      ],
+      "subtotal": 10000,
+      "vat": 750,
+      "total": 10750,
+      "createdAt": "2024-05-24T10:15:00Z",
+      "updatedAt": "2026-05-25T17:16:40.739Z",
+      "paymentMethod": "cash"
+    },
+    {
+      "id": "ord-002",
+      "orderNumber": "ORD-002",
+      "type": "dine-in",
+      "tableId": "t2",
+      "tableName": "Table 2",
+      "waiterId": "u3",
+      "waiterName": "Chidi Nwosu",
+      "status": "completed",
+      "kitchenStatus": "ready",
+      "paymentStatus": "paid",
+      "items": [
+        {
+          "menuItemId": "m8",
+          "name": "Grilled Chicken",
+          "qty": 1,
+          "price": 4500,
+          "note": ""
+        },
+        {
+          "menuItemId": "m15",
+          "name": "Chapman",
+          "qty": 2,
+          "price": 1500,
+          "note": ""
+        }
+      ],
+      "subtotal": 7500,
+      "vat": 562,
+      "total": 8062,
+      "createdAt": "2024-05-24T11:00:00Z",
+      "updatedAt": "2026-05-26T09:03:37.916Z",
+      "paymentMethod": "card"
+    },
+    {
+      "id": "ord-003",
+      "orderNumber": "ORD-003",
+      "type": "takeaway",
+      "tableId": null,
+      "tableName": null,
+      "waiterId": "u2",
+      "waiterName": "Amaka Obi",
+      "status": "completed",
+      "kitchenStatus": "ready",
+      "paymentStatus": "paid",
+      "items": [
+        {
+          "menuItemId": "m5",
+          "name": "Egusi Soup + Eba",
+          "qty": 1,
+          "price": 3000,
+          "note": "no fish"
+        },
+        {
+          "menuItemId": "m17",
+          "name": "Soft Drink",
+          "qty": 2,
+          "price": 500,
+          "note": ""
+        }
+      ],
+      "subtotal": 4000,
+      "vat": 300,
+      "total": 4300,
+      "createdAt": "2024-05-24T11:30:00Z",
+      "updatedAt": "2026-05-25T17:10:31.917Z",
+      "paymentMethod": "card"
+    },
+    {
+      "type": "dine-in",
+      "tableId": "t1",
+      "tableName": "Table 1",
+      "waiterId": "u2",
+      "waiterName": "Amaka Obi",
+      "items": [
+        {
+          "menuItemId": "m3",
+          "name": "Complete Meal (Beef + Rice + Salad)",
+          "qty": 1,
+          "price": 7000,
+          "note": ""
+        }
+      ],
+      "id": "ord-1779729372554-rnvf",
+      "orderNumber": "ORD-004",
+      "status": "pending",
+      "kitchenStatus": "ready",
+      "paymentStatus": "unpaid",
+      "subtotal": 7000,
+      "vat": 525,
+      "total": 7525,
+      "createdAt": "2026-05-25T17:16:12.554Z",
+      "updatedAt": "2026-05-25T17:19:03.173Z"
+    },
+    {
+      "type": "dine-in",
+      "tableId": "t1",
+      "tableName": "Table 1",
+      "waiterId": "u2",
+      "waiterName": "Amaka Obi",
+      "items": [
+        {
+          "menuItemId": "m25",
+          "name": "Akara & Bread",
+          "qty": 1,
+          "price": 1200,
+          "note": ""
+        }
+      ],
+      "id": "ord-1779729498997-foot",
+      "orderNumber": "ORD-005",
+      "status": "completed",
+      "kitchenStatus": "ready",
+      "paymentStatus": "paid",
+      "subtotal": 1200,
+      "vat": 90,
+      "total": 1290,
+      "createdAt": "2026-05-25T17:18:18.997Z",
+      "updatedAt": "2026-05-26T09:04:56.954Z",
+      "paymentMethod": "cash"
+    },
+    {
+      "type": "dine-in",
+      "tableId": "t1",
+      "tableName": "Table 1",
+      "waiterId": "u2",
+      "waiterName": "Amaka Obi",
+      "items": [
+        {
+          "menuItemId": "m13",
+          "name": "Afang Soup + Fufu",
+          "qty": 1,
+          "price": 3500,
+          "note": ""
+        }
+      ],
+      "id": "ord-1779729994393-zy0d",
+      "orderNumber": "ORD-006",
+      "status": "pending",
+      "kitchenStatus": "preparing",
+      "paymentStatus": "unpaid",
+      "subtotal": 3500,
+      "vat": 263,
+      "total": 3763,
+      "createdAt": "2026-05-25T17:26:34.393Z",
+      "updatedAt": "2026-05-26T09:05:14.597Z"
+    },
+    {
+      "type": "dine-in",
+      "tableId": "t1",
+      "tableName": "Table 1",
+      "waiterId": "u2",
+      "waiterName": "Amaka Obi",
+      "items": [
+        {
+          "menuItemId": "m25",
+          "name": "Akara & Bread",
+          "qty": 1,
+          "price": 1200,
+          "note": ""
+        }
+      ],
+      "id": "ord-1779786194666-01xw",
+      "orderNumber": "ORD-007",
+      "status": "pending",
+      "kitchenStatus": "preparing",
+      "paymentStatus": "unpaid",
+      "subtotal": 1200,
+      "vat": 90,
+      "total": 1290,
+      "createdAt": "2026-05-26T09:03:15.085Z",
+      "updatedAt": "2026-05-26T09:04:41.440Z"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "txn-001",
+      "orderNumber": "ORD-000",
+      "cashierId": "u2",
+      "cashierName": "Amaka Obi",
+      "amount": 8500,
+      "method": "cash",
+      "amountGiven": 10000,
+      "change": 1500,
+      "status": "paid",
+      "receiptNumber": "RCP-0001",
+      "createdAt": "2024-05-24T09:30:00Z"
+    },
+    {
+      "id": "txn-002",
+      "orderNumber": "ORD-999",
+      "cashierId": "u2",
+      "cashierName": "Amaka Obi",
+      "amount": 15000,
+      "method": "transfer",
+      "amountGiven": 15000,
+      "change": 0,
+      "status": "paid",
+      "receiptNumber": "RCP-0002",
+      "createdAt": "2024-05-24T10:00:00Z"
+    },
+    {
+      "orderNumber": "ORD-003",
+      "cashierId": "u2",
+      "cashierName": "Amaka Obi",
+      "amount": 4300,
+      "method": "card",
+      "amountGiven": 4300,
+      "change": 0,
+      "id": "txn-1779729031437-891n",
+      "receiptNumber": "RCP-0003",
+      "status": "paid",
+      "createdAt": "2026-05-25T17:10:31.438Z"
+    },
+    {
+      "orderNumber": "ORD-001",
+      "cashierId": "u2",
+      "cashierName": "Amaka Obi",
+      "amount": 10750,
+      "method": "cash",
+      "amountGiven": 10749,
+      "change": -1,
+      "id": "txn-1779729400652-vbjh",
+      "receiptNumber": "RCP-0004",
+      "status": "paid",
+      "createdAt": "2026-05-25T17:16:40.652Z"
+    },
+    {
+      "orderNumber": "ORD-005",
+      "cashierId": "u2",
+      "cashierName": "Amaka Obi",
+      "amount": 1290,
+      "method": "cash",
+      "amountGiven": 1288,
+      "change": -2,
+      "id": "txn-1779729528556-zu7a",
+      "receiptNumber": "RCP-0005",
+      "status": "paid",
+      "createdAt": "2026-05-25T17:18:48.556Z"
+    },
+    {
+      "orderNumber": "ORD-002",
+      "cashierId": "u2",
+      "cashierName": "Amaka Obi",
+      "amount": 8062,
+      "method": "card",
+      "amountGiven": 8062,
+      "change": 0,
+      "id": "txn-1779786216811-da4x",
+      "receiptNumber": "RCP-0006",
+      "status": "paid",
+      "createdAt": "2026-05-26T09:03:36.845Z"
+    }
+  ],
+  "inventory": [
+    {
+      "id": "inv1",
+      "name": "Chicken",
+      "unit": "kg",
+      "quantity": 15,
+      "minQuantity": 5,
+      "costPerUnit": 3500
+    },
+    {
+      "id": "inv2",
+      "name": "Fish (Tilapia)",
+      "unit": "kg",
+      "quantity": 8,
+      "minQuantity": 5,
+      "costPerUnit": 4000
+    },
+    {
+      "id": "inv3",
+      "name": "Rice",
+      "unit": "kg",
+      "quantity": 50,
+      "minQuantity": 20,
+      "costPerUnit": 900
+    },
+    {
+      "id": "inv4",
+      "name": "Beef",
+      "unit": "kg",
+      "quantity": 4,
+      "minQuantity": 5,
+      "costPerUnit": 5000
+    },
+    {
+      "id": "inv5",
+      "name": "Vegetable Oil",
+      "unit": "litre",
+      "quantity": 10,
+      "minQuantity": 4,
+      "costPerUnit": 1800
+    },
+    {
+      "id": "inv6",
+      "name": "Soft Drinks (crate)",
+      "unit": "crate",
+      "quantity": 3,
+      "minQuantity": 2,
+      "costPerUnit": 7500
+    }
+  ],
+  "events": [
+    {
+      "id": "ev1",
+      "title": "Okafor Wedding Reception",
+      "hall": "Royal Hall",
+      "date": "2024-05-25",
+      "startTime": "14:00",
+      "endTime": "22:00",
+      "clientName": "Mr. Okafor",
+      "clientPhone": "08012345678",
+      "guestCount": 300,
+      "status": "confirmed",
+      "depositPaid": 150000,
+      "totalAmount": 500000,
+      "balance": 350000,
+      "notes": "Owambe setup. Client bringing own DJ.",
+      "createdAt": "2024-05-01T10:00:00Z"
+    },
+    {
+      "id": "ev2",
+      "title": "TechCorp Annual Dinner",
+      "hall": "Conference Room A",
+      "date": "2024-05-28",
+      "startTime": "18:00",
+      "endTime": "21:00",
+      "clientName": "Mrs. Adeyemi",
+      "clientPhone": "08098765432",
+      "guestCount": 80,
+      "status": "confirmed",
+      "depositPaid": 80000,
+      "totalAmount": 200000,
+      "balance": 120000,
+      "notes": "Projector needed. Corporate dinner.",
+      "createdAt": "2024-05-03T09:00:00Z"
+    },
+    {
+      "title": "startup convocation",
+      "hall": "Grandhall ",
+      "date": "2026-06-06",
+      "startTime": "19:00",
+      "endTime": "22:00",
+      "clientName": "Muslim Hafiz",
+      "clientPhone": "07010326745",
+      "guestCount": 140,
+      "status": "confirmed",
+      "depositPaid": 90000,
+      "totalAmount": 90000,
+      "notes": "let me test it  and see",
+      "id": "ev-1779775143389-sdb4",
+      "balance": 0,
+      "createdAt": "2026-05-26T05:59:03.390Z"
+    }
+  ],
+  "analytics": {
+    "today": {
+      "totalSales": 245000,
+      "totalOrders": 62,
+      "totalCustomers": 48,
+      "totalBookings": 4,
+      "netProfit": 183750,
+      "totalExpenses": 61250
+    },
+    "monthly": {
+      "totalSales": 4310000,
+      "totalExpenses": 1250000,
+      "netProfit": 3060000,
+      "salesByDay": [
+        {
+          "date": "May 1",
+          "sales": 120000
+        },
+        {
+          "date": "May 6",
+          "sales": 145000
+        },
+        {
+          "date": "May 12",
+          "sales": 190000
+        },
+        {
+          "date": "May 18",
+          "sales": 230000
+        },
+        {
+          "date": "May 24",
+          "sales": 280000
+        },
+        {
+          "date": "May 30",
+          "sales": 310000
+        }
+      ]
+    }
+  }
+}
