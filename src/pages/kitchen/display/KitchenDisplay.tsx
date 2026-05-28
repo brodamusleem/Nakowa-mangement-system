@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useActiveKitchenOrders, useUpdateKitchenStatus } from "@/api/hooks"
+import { useActiveKitchenOrders, useRecentKitchenOrders, useUpdateKitchenStatus } from "@/api/hooks"
 import { KitchenTicketSkeleton } from "@/lib/kitchenShimmer/KitchenShimmer"
 import { useWebSocket } from "@/hooks/useWebSocket"
 import { formatDate } from "@/lib/utils"
@@ -45,11 +45,19 @@ function OrderTicket({ order, action }: { order: Order; action?: React.ReactNode
 export default function KitchenDisplay() {
   useWebSocket(); // Real-time updates
   const { pending, preparing, ready, isLoading } = useActiveKitchenOrders()
+  const recentOrdersQuery = useRecentKitchenOrders()
   const updateStatus = useUpdateKitchenStatus()
 
-  if (isLoading) return <KitchenTicketSkeleton />
+  if (isLoading || recentOrdersQuery.isLoading) return <KitchenTicketSkeleton />
 
   const total = pending.length + preparing.length + ready.length
+  const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000
+  const allRecentOrders = (recentOrdersQuery.data ?? [])
+    .filter((order) => new Date(order.createdAt).getTime() >= twentyFourHoursAgo)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+  const activeOrderIds = new Set([...pending, ...preparing, ...ready].map((order) => order.id))
+  const recentOnlyOrders = allRecentOrders.filter((order) => !activeOrderIds.has(order.id))
 
   return (
     <div className="flex h-screen flex-col bg-background">
@@ -65,6 +73,36 @@ export default function KitchenDisplay() {
           </Badge>
         }
       />
+
+      {/* Recent orders in the last 24 hours */}
+      <div className="border-b border-border bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="font-medium text-base text-foreground">Recent orders (last 24 hours)</p>
+            <p className="text-xs text-muted-foreground">
+              Showing recent kitchen orders created in the last 24 hours.
+            </p>
+          </div>
+          <Badge variant="outline">{allRecentOrders.length} recent orders</Badge>
+        </div>
+        {recentOnlyOrders.length > 0 ? (
+          <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {recentOnlyOrders.slice(0, 6).map((order) => (
+              <div key={order.id} className="rounded-md border border-border bg-background p-3">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-semibold">#{order.orderNumber}</p>
+                  <span className="text-xs text-muted-foreground">{order.kitchenStatus}</span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {order.tableName ?? "Takeaway"} · {formatDate(order.createdAt)}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-3 text-sm text-muted-foreground">No additional orders outside the active kitchen board.</p>
+        )}
+      </div>
 
       {/* Board */}
       <div className="grid flex-1 grid-cols-3 gap-0 overflow-hidden divide-x">

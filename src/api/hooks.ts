@@ -111,6 +111,15 @@ export function useKitchenOrders(kitchenStatus: string) {
   })
 }
 
+export function useRecentKitchenOrders() {
+  return useQuery<Order[]>({
+    queryKey: queryKeys.ordersKitchenRecent(),
+    queryFn: () => apiClient.get("/orders").then((r) => r.data),
+    refetchInterval: 15_000,
+    refetchIntervalInBackground: true,
+  })
+}
+
 export function useActiveKitchenOrders() {
   const pending   = useKitchenOrders("pending")
   const preparing = useKitchenOrders("preparing")

@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Pagination } from "@/components/ui/pagination"
 import { PageHeader } from "@/components/PageHeader"
 import { Search, Download, History } from "lucide-react"
 import { useTransactions } from "@/api/hooks"
@@ -25,6 +26,7 @@ const methodLabels = {
 
 export default function TransactionsPage() {
   const { data: transactions = [], isLoading } = useTransactions()
+  const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState("")
 
   const filtered = transactions.filter(
@@ -32,6 +34,15 @@ export default function TransactionsPage() {
       t.reference?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       t.id.toLowerCase().includes(searchTerm.toLowerCase())
   )
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm])
+
+  const pageSize = 8
+  const paginatedTransactions = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+
+  const handlePageChange = (page: number) => setCurrentPage(page)
 
   const totalAmount = transactions
     .filter((t) => t.status === "completed")
@@ -104,7 +115,7 @@ export default function TransactionsPage() {
       {/* Transactions Table */}
       <div className="overflow-x-auto">
         <div className="space-y-2">
-          {filtered.map((tx) => (
+          {paginatedTransactions.map((tx) => (
             <Card key={tx.id} className="p-3 md:p-4">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="flex-1">
@@ -125,6 +136,13 @@ export default function TransactionsPage() {
           ))}
         </div>
       </div>
+      <Pagination
+        total={filtered.length}
+        pageSize={pageSize}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+        className="mt-4"
+      />
     </div>
   )
 }

@@ -16,6 +16,7 @@ export const queryKeys = {
   ordersByStatus: (status: string) => ["orders", "status", status] as const,
   ordersUnpaid:   ["orders", "unpaid"] as const,
   ordersKitchen:  (ks: string) => ["orders", "kitchen", ks] as const,
+  ordersKitchenRecent: () => ["orders", "kitchen", "recent"] as const,
   ordersByTable:  (id: string) => ["orders", "table", id] as const,
 
   // Transactions

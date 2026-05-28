@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -9,6 +10,7 @@ import {
   useTransactions,
   useAnalyticsSummary,
 } from "@/api/hooks"
+import { Pagination } from "@/components/ui/pagination"
 import { useAuthStore } from "@/state/authStore"
 
 export default function CashierDashboard() {
@@ -16,6 +18,9 @@ export default function CashierDashboard() {
   const { data: unpaidOrders = [] } = useUnpaidOrders()
   const { data: transactions = [] } = useTransactions()
   const { data: analytics } = useAnalyticsSummary()
+  const [currentOrdersPage, setCurrentOrdersPage] = useState(1)
+  const ordersPageSize = 5
+  const paginatedOrders = unpaidOrders.slice((currentOrdersPage - 1) * ordersPageSize, currentOrdersPage * ordersPageSize)
 
   const todayTransactions = transactions.filter((t) => {
     const txnDate = new Date(t.createdAt).toLocaleDateString()
@@ -142,7 +147,7 @@ export default function CashierDashboard() {
         <div>
           <h2 className="text-lg font-semibold mb-4">Pending Orders</h2>
           <div className="grid gap-3">
-            {unpaidOrders.slice(0, 5).map((order) => (
+            {paginatedOrders.map((order) => (
               <Card key={order.id} className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
@@ -163,6 +168,13 @@ export default function CashierDashboard() {
               </Card>
             ))}
           </div>
+          <Pagination
+            total={unpaidOrders.length}
+            pageSize={ordersPageSize}
+            currentPage={currentOrdersPage}
+            onPageChange={setCurrentOrdersPage}
+            className="mt-4"
+          />
         </div>
       )}
 

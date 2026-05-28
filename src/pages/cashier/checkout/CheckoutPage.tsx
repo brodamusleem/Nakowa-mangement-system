@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,6 +10,7 @@ import { useUnpaidOrders, useCompletePayment } from "@/api/hooks"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Receipt } from "@/lib/Receipt"
 import { useAuthStore } from "@/state/authStore"
+import { Pagination } from "@/components/ui/pagination"
 import type { Order } from "@/types/orderTypes"
 import type { Transaction } from "@/types/analyticsTypes"
 
@@ -21,6 +22,14 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<"cash" | "card" | "mobile">("cash")
   const [amountReceived, setAmountReceived] = useState("")
   const [receipt, setReceipt] = useState<{ order: Order; transaction: Transaction } | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const totalOrdersPages = Math.max(1, Math.ceil(orders.length / 6))
+
+  useEffect(() => {
+    if (currentPage > totalOrdersPages) {
+      setCurrentPage(totalOrdersPages)
+    }
+  }, [currentPage, totalOrdersPages])
 
   if (isLoading) {
     return (
@@ -88,7 +97,7 @@ export default function CheckoutPage() {
                 No pending orders
               </Card>
             ) : (
-              orders.map((order) => (
+              orders.slice((currentPage - 1) * 6, currentPage * 6).map((order) => (
                 <Card
                   key={order.id}
                   className={`p-3 cursor-pointer transition ${
@@ -107,6 +116,13 @@ export default function CheckoutPage() {
               ))
             )}
           </div>
+          <Pagination
+            total={orders.length}
+            pageSize={6}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+            className="mt-3"
+          />
         </div>
 
         {/* Order Details and Checkout */}
