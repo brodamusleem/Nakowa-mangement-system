@@ -1,5 +1,5 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 
 /** POS menu grid shimmer */
 export function CashierMenuSkeleton() {
@@ -15,7 +15,7 @@ export function CashierMenuSkeleton() {
         </Card>
       ))}
     </div>
-  );
+  )
 }
 
 /** Unpaid orders list shimmer */
@@ -33,7 +33,7 @@ export function CashierOrdersSkeleton() {
         </div>
       ))}
     </div>
-  );
+  )
 }
 
 /** Transactions shimmer */
@@ -51,5 +51,5 @@ export function CashierTransactionsSkeleton() {
         </div>
       ))}
     </div>
-  );
+  )
 }

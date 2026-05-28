@@ -1,42 +1,42 @@
-import { useState, useEffect } from "react";
-import { PageHeader } from "@/components/PageHeader";
-import { SystemHealth } from "@/components/SystemHealth";
-import { useThemeStore } from "@/state/themeStore";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { useState, useEffect } from "react"
+import { PageHeader } from "@/components/PageHeader"
+import { SystemHealth } from "@/components/SystemHealth"
+import { useThemeStore } from "@/state/themeStore"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Settings, Save, Download, RefreshCw, Lock, Bell, Palette, Database } from "lucide-react";
+} from "@/components/ui/select"
+import { Settings, Save, Download, RefreshCw, Lock, Bell, Palette, Database } from "lucide-react"
 
 interface SystemSettings {
-  restaurantName: string;
-  restaurantPhone: string;
-  restaurantEmail: string;
-  restaurantAddress: string;
-  currency: string;
+  restaurantName: string
+  restaurantPhone: string
+  restaurantEmail: string
+  restaurantAddress: string
+  currency: string
   businessHours: {
-    open: string;
-    close: string;
-  };
-  timezone: string;
-  enableNotifications: boolean;
-  enableOfflineMode: boolean;
-  backupFrequency: "daily" | "weekly" | "monthly";
-  theme: "light" | "dark" | "auto";
-  maintenanceMode: boolean;
+    open: string
+    close: string
+  }
+  timezone: string
+  enableNotifications: boolean
+  enableOfflineMode: boolean
+  backupFrequency: "daily" | "weekly" | "monthly"
+  theme: "light" | "dark" | "auto" | "system"
+  maintenanceMode: boolean
 }
 
 export default function SystemPreferences() {
-  const { theme, setTheme } = useThemeStore();
+  const { theme, setTheme } = useThemeStore()
   const [settings, setSettings] = useState<SystemSettings>({
     restaurantName: "Nakowa Events & Restaurant",
     restaurantPhone: "+234 1 234 5678",
@@ -50,44 +50,44 @@ export default function SystemPreferences() {
     backupFrequency: "daily",
     theme: theme,
     maintenanceMode: false,
-  });
+  })
 
-  const [originalSettings, setOriginalSettings] = useState<SystemSettings>(settings);
-  const [hasChanges, setHasChanges] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [originalSettings, setOriginalSettings] = useState<SystemSettings>(settings)
+  const [hasChanges, setHasChanges] = useState(false)
+  const [saved, setSaved] = useState(false)
 
   useEffect(() => {
     // Check if any settings have changed
-    const changed = JSON.stringify(settings) !== JSON.stringify(originalSettings);
-    setHasChanges(changed);
-  }, [settings, originalSettings]);
+    const changed = JSON.stringify(settings) !== JSON.stringify(originalSettings)
+    setHasChanges(changed)
+  }, [settings, originalSettings])
 
   const handleSave = () => {
-    setSaved(true);
-    setOriginalSettings(settings);
-    setHasChanges(false);
+    setSaved(true)
+    setOriginalSettings(settings)
+    setHasChanges(false)
     // Update theme store
     if (settings.theme !== theme) {
-      setTheme(settings.theme as "light" | "dark" | "system");
+      setTheme(settings.theme as "light" | "dark" | "system")
     }
-    setTimeout(() => setSaved(false), 3000);
-  };
+    setTimeout(() => setSaved(false), 3000)
+  }
 
   const handleCancel = () => {
-    setSettings(originalSettings);
-    setHasChanges(false);
-  };
+    setSettings(originalSettings)
+    setHasChanges(false)
+  }
 
   const handleInputChange = (key: keyof SystemSettings, value: any) => {
-    setSettings((prev) => ({ ...prev, [key]: value }));
-  };
+    setSettings((prev) => ({ ...prev, [key]: value }))
+  }
 
   const handleBusinessHoursChange = (field: "open" | "close", value: string) => {
     setSettings((prev) => ({
       ...prev,
       businessHours: { ...prev.businessHours, [field]: value },
-    }));
-  };
+    }))
+  }
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -400,5 +400,5 @@ export default function SystemPreferences() {
         </div>
       )}
     </div>
-  );
+  )
 }

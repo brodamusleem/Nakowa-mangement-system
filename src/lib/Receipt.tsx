@@ -1,36 +1,36 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, Printer, X } from "lucide-react";
-import type { Order } from "@/types/orderTypes";
-import type { Transaction } from "@/types/analyticsTypes";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Download, Printer, X } from "lucide-react"
+import type { Order } from "@/types/orderTypes"
+import type { Transaction } from "@/types/analyticsTypes"
 
 interface ReceiptProps {
-  order: Order;
-  transaction: Transaction;
-  onClose: () => void;
+  order: Order
+  transaction: Transaction
+  onClose: () => void
 }
 
 export function Receipt({ order, transaction, onClose }: ReceiptProps) {
   const printReceipt = () => {
-    const printWindow = window.open("", "", "height=500,width=500");
-    if (!printWindow) return;
+    const printWindow = window.open("", "", "height=500,width=500")
+    if (!printWindow) return
 
-    const receiptHTML = generateReceiptHTML(order, transaction);
-    printWindow.document.write(receiptHTML);
-    printWindow.document.close();
-    setTimeout(() => printWindow.print(), 250);
-  };
+    const receiptHTML = generateReceiptHTML(order, transaction)
+    printWindow.document.write(receiptHTML)
+    printWindow.document.close()
+    setTimeout(() => printWindow.print(), 250)
+  }
 
   const downloadReceipt = () => {
-    const element = document.createElement("a");
-    const receiptHTML = generateReceiptHTML(order, transaction);
-    const file = new Blob([receiptHTML], { type: "text/html" });
-    element.href = URL.createObjectURL(file);
-    element.download = `receipt-${order.orderNumber}-${new Date().toISOString().split("T")[0]}.html`;
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  };
+    const element = document.createElement("a")
+    const receiptHTML = generateReceiptHTML(order, transaction)
+    const file = new Blob([receiptHTML], { type: "text/html" })
+    element.href = URL.createObjectURL(file)
+    element.download = `receipt-${order.orderNumber}-${new Date().toISOString().split("T")[0]}.html`
+    document.body.appendChild(element)
+    element.click()
+    document.body.removeChild(element)
+  }
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -169,7 +169,7 @@ export function Receipt({ order, transaction, onClose }: ReceiptProps) {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
 
 function generateReceiptHTML(order: Order, transaction: Transaction): string {
@@ -182,7 +182,7 @@ function generateReceiptHTML(order: Order, transaction: Transaction): string {
     </tr>
   `
     )
-    .join("") || "";
+    .join("") || ""
 
   return `
     <!DOCTYPE html>
@@ -192,55 +192,55 @@ function generateReceiptHTML(order: Order, transaction: Transaction): string {
       <title>Receipt ${order.orderNumber}</title>
       <style>
         body {
-          font-family: 'Courier New', monospace;
-          max-width: 300px;
-          margin: 0 auto;
-          padding: 20px;
-          background: white;
+          font-family: 'Courier New', monospace
+          max-width: 300px
+          margin: 0 auto
+          padding: 20px
+          background: white
         }
         .receipt {
-          text-align: center;
-          border: 1px solid #000;
-          padding: 15px;
+          text-align: center
+          border: 1px solid #000
+          padding: 15px
         }
         .header {
-          font-size: 16px;
-          font-weight: bold;
-          margin-bottom: 5px;
+          font-size: 16px
+          font-weight: bold
+          margin-bottom: 5px
         }
         .subheader {
-          font-size: 12px;
-          color: #666;
-          margin-bottom: 10px;
+          font-size: 12px
+          color: #666
+          margin-bottom: 10px
         }
         .divider {
-          border-top: 1px dashed #000;
-          margin: 10px 0;
+          border-top: 1px dashed #000
+          margin: 10px 0
         }
         .items {
-          text-align: left;
-          margin: 10px 0;
-          font-size: 12px;
+          text-align: left
+          margin: 10px 0
+          font-size: 12px
         }
         .item-row {
-          display: flex;
-          justify-content: space-between;
+          display: flex
+          justify-content: space-between
         }
         .totals {
-          text-align: left;
-          margin: 10px 0;
-          font-size: 12px;
+          text-align: left
+          margin: 10px 0
+          font-size: 12px
         }
         .total-row {
-          display: flex;
-          justify-content: space-between;
-          font-weight: bold;
+          display: flex
+          justify-content: space-between
+          font-weight: bold
         }
         .footer {
-          text-align: center;
-          font-size: 11px;
-          color: #666;
-          margin-top: 10px;
+          text-align: center
+          font-size: 11px
+          color: #666
+          margin-top: 10px
         }
       </style>
     </head>
@@ -299,5 +299,5 @@ function generateReceiptHTML(order: Order, transaction: Transaction): string {
       </div>
     </body>
     </html>
-  `;
+  `
 }

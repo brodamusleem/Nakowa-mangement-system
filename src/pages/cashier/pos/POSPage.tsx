@@ -1,36 +1,36 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/state/context/AuthContext";
-import { useCategories, useCreateOrder, useMenuItems, useTables } from "@/api/hooks";
-import type { MenuItem } from "@/types/menuTypes";
-import type { OrderType } from "@/types/orderTypes";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { PageHeader } from "@/components/PageHeader";
-import { ShoppingCart, Plus, Minus, Trash2, Search } from "lucide-react";
+import { useMemo, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "@/state/context/AuthContext"
+import { useCategories, useCreateOrder, useMenuItems, useTables } from "@/api/hooks"
+import type { MenuItem } from "@/types/menuTypes"
+import type { OrderType } from "@/types/orderTypes"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { PageHeader } from "@/components/PageHeader"
+import { ShoppingCart, Plus, Minus, Trash2, Search } from "lucide-react"
 
 interface CartItem extends MenuItem {
-  quantity: number;
+  quantity: number
 }
 
-const orderTypes: OrderType[] = ["dine-in", "takeaway"];
+const orderTypes: OrderType[] = ["dine-in", "takeaway"]
 
 export default function POSPage() {
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const { data: categories = [] } = useCategories();
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
-  const { data: menuItems = [], isLoading: loadingMenu } = useMenuItems(selectedCategoryId || undefined);
-  const { data: tables = [] } = useTables();
-  const createOrder = useCreateOrder();
+  const navigate = useNavigate()
+  const { user } = useAuth()
+  const { data: categories = [] } = useCategories()
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
+  const { data: menuItems = [], isLoading: loadingMenu } = useMenuItems(selectedCategoryId || undefined)
+  const { data: tables = [] } = useTables()
+  const createOrder = useCreateOrder()
 
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [orderType, setOrderType] = useState<OrderType>("dine-in");
-  const [tableId, setTableId] = useState<string | null>(null);
+  const [cart, setCart] = useState<CartItem[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [orderType, setOrderType] = useState<OrderType>("dine-in")
+  const [tableId, setTableId] = useState<string | null>(null)
 
   const filteredMenu = useMemo(
     () =>
@@ -42,33 +42,33 @@ export default function POSPage() {
         }))
         .sort((a, b) => a.name.localeCompare(b.name)),
     [menuItems, searchTerm, categories]
-  );
+  )
 
   const addToCart = (item: MenuItem) => {
     setCart((prev) => {
-      const existing = prev.find((c) => c.id === item.id);
+      const existing = prev.find((c) => c.id === item.id)
       if (existing) {
-        return prev.map((c) => (c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c));
+        return prev.map((c) => (c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c))
       }
-      return [...prev, { ...item, quantity: 1 }];
-    });
-  };
+      return [...prev, { ...item, quantity: 1 }]
+    })
+  }
 
   const updateQuantity = (id: string, quantity: number) => {
     if (quantity <= 0) {
-      setCart((prev) => prev.filter((c) => c.id !== id));
+      setCart((prev) => prev.filter((c) => c.id !== id))
     } else {
-      setCart((prev) => prev.map((c) => (c.id === id ? { ...c, quantity } : c)));
+      setCart((prev) => prev.map((c) => (c.id === id ? { ...c, quantity } : c)))
     }
-  };
+  }
 
-  const total = useMemo(() => cart.reduce((sum, item) => sum + item.price * item.quantity, 0), [cart]);
+  const total = useMemo(() => cart.reduce((sum, item) => sum + item.price * item.quantity, 0), [cart])
 
   const handleCheckout = () => {
-    if (cart.length === 0) return;
+    if (cart.length === 0) return
     if (orderType === "dine-in" && !tableId) {
-      alert("Please select a table for dine-in orders.");
-      return;
+      alert("Please select a table for dine-in orders.")
+      return
     }
 
     createOrder.mutate(
@@ -91,15 +91,15 @@ export default function POSPage() {
       },
       {
         onSuccess: () => {
-          setCart([]);
-          navigate("/cashier/checkout");
+          setCart([])
+          navigate("/cashier/checkout")
         },
         onError: () => {
-          alert("Unable to place order. Please try again.");
+          alert("Unable to place order. Please try again.")
         },
       }
-    );
-  };
+    )
+  }
 
   return (
     <div className="space-y-4 p-4 md:space-y-6 md:p-6">
@@ -293,5 +293,5 @@ export default function POSPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

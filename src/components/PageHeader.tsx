@@ -1,14 +1,14 @@
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, LogOut } from "lucide-react";
-import { useAuthStore } from "@/state/authStore";
+import { useNavigate } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { ChevronLeft, LogOut } from "lucide-react"
+import { useAuthStore } from "@/state/authStore"
 
 interface PageHeaderProps {
-  title: string;
-  icon?: React.ReactNode;
-  showBackButton?: boolean;
-  backTo?: string;
-  rightContent?: React.ReactNode;
+  title: string
+  icon?: React.ReactNode
+  showBackButton?: boolean
+  backTo?: string
+  rightContent?: React.ReactNode
 }
 
 export function PageHeader({
@@ -18,21 +18,21 @@ export function PageHeader({
   backTo,
   rightContent,
 }: PageHeaderProps) {
-  const navigate = useNavigate();
-  const { logout } = useAuthStore();
+  const navigate = useNavigate()
+  const { logout } = useAuthStore()
 
   const handleBack = () => {
     if (backTo) {
-      navigate(backTo);
+      navigate(backTo)
     } else {
-      navigate(-1);
+      navigate(-1)
     }
-  };
+  }
 
   const handleLogout = () => {
-    logout();
-    navigate("/login", { replace: true });
-  };
+    logout()
+    navigate("/login", { replace: true })
+  }
 
   return (
     <header className="flex items-center justify-between border-b bg-card px-4 md:px-6 py-3 md:py-4">
@@ -65,5 +65,5 @@ export function PageHeader({
         </Button>
       </div>
     </header>
-  );
+  )
 }

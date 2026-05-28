@@ -1,52 +1,52 @@
-import { useMemo } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from "recharts";
-import { useAnalyticsSummary, useAnalyticsMonthly, useOrders, useTransactions } from "@/api/hooks";
+import { useMemo } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from "recharts"
+import { useAnalyticsSummary, useAnalyticsMonthly, useOrders, useTransactions } from "@/api/hooks"
 
-const chartColors = ["hsl(280 100% 50%)", "hsl(260 80% 60%)", "hsl(175 50% 42%)", "hsl(48 100% 55%)"];
+const chartColors = ["hsl(280 100% 50%)", "hsl(260 80% 60%)", "hsl(175 50% 42%)", "hsl(48 100% 55%)"]
 
 export default function ManagerReports() {
-  const { data: summary, isLoading: loadingSummary } = useAnalyticsSummary();
-  const { data: monthly, isLoading: loadingMonthly } = useAnalyticsMonthly();
-  const { data: orders = [], isLoading: loadingOrders } = useOrders();
-  const { data: transactions = [], isLoading: loadingTransactions } = useTransactions();
+  const { data: summary, isLoading: loadingSummary } = useAnalyticsSummary()
+  const { data: monthly, isLoading: loadingMonthly } = useAnalyticsMonthly()
+  const { data: orders = [], isLoading: loadingOrders } = useOrders()
+  const { data: transactions = [], isLoading: loadingTransactions } = useTransactions()
 
-  const isLoading = loadingSummary || loadingMonthly || loadingOrders || loadingTransactions;
+  const isLoading = loadingSummary || loadingMonthly || loadingOrders || loadingTransactions
 
-  const weeklyData = monthly?.salesByDay ?? [];
-  const totalRevenue = summary?.totalSales ?? transactions.reduce((sum, txn) => sum + txn.amount, 0);
-  const orderCount = summary?.totalOrders ?? orders.length;
-  const growth = summary?.netProfit && summary.totalSales ? Math.round((summary.netProfit / summary.totalSales) * 100) : 0;
-  const averageDaily = weeklyData.length > 0 ? Math.round(weeklyData.reduce((sum, day) => sum + day.sales, 0) / weeklyData.length) : Math.round((totalRevenue || 0) / 7);
+  const weeklyData = monthly?.salesByDay ?? []
+  const totalRevenue = summary?.totalSales ?? transactions.reduce((sum, txn) => sum + txn.amount, 0)
+  const orderCount = summary?.totalOrders ?? orders.length
+  const growth = summary?.netProfit && summary.totalSales ? Math.round((summary.netProfit / summary.totalSales) * 100) : 0
+  const averageDaily = weeklyData.length > 0 ? Math.round(weeklyData.reduce((sum, day) => sum + day.sales, 0) / weeklyData.length) : Math.round((totalRevenue || 0) / 7)
 
   const typeBreakdown = useMemo(
     () => {
       const counts = orders.reduce(
         (acc, order) => {
-          acc[order.type] = (acc[order.type] || 0) + 1;
-          return acc;
+          acc[order.type] = (acc[order.type] || 0) + 1
+          return acc
         },
         { "dine-in": 0, takeaway: 0 }
-      );
+      )
 
       return [
         { name: "Dine In", value: counts["dine-in"] },
         { name: "Takeaway", value: counts.takeaway },
-      ];
+      ]
     },
     [orders]
-  );
+  )
 
   const topItems = useMemo(() => {
-    const itemsMap = new Map<string, { name: string; qty: number; sales: number }>();
+    const itemsMap = new Map<string, { name: string; qty: number; sales: number }>()
     orders.forEach((order) => {
       order.items.forEach((item) => {
-        const existing = itemsMap.get(item.name) ?? { name: item.name, qty: 0, sales: 0 };
-        existing.qty += item.qty;
-        existing.sales += item.price * item.qty;
-        itemsMap.set(item.name, existing);
-      });
-    });
+        const existing = itemsMap.get(item.name) ?? { name: item.name, qty: 0, sales: 0 }
+        existing.qty += item.qty
+        existing.sales += item.price * item.qty
+        itemsMap.set(item.name, existing)
+      })
+    })
 
     return Array.from(itemsMap.values())
       .sort((a, b) => b.qty - a.qty)
@@ -56,8 +56,8 @@ export default function ManagerReports() {
         sales: item.qty,
         revenue: item.sales,
         trend: `${Math.round((item.qty / Math.max(1, orders.length)) * 100)}%`,
-      }));
-  }, [orders]);
+      }))
+  }, [orders])
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -176,5 +176,5 @@ export default function ManagerReports() {
         </Card>
       </div>
     </div>
-  );
+  )
 }

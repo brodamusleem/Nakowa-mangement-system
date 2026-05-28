@@ -1,11 +1,11 @@
-import { useState, useMemo } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Search, Download, Eye, DollarSign, Calendar, User } from "lucide-react";
-import { useOrders, useTransactions } from "@/api/hooks";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useState, useMemo } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Search, Download, Eye, DollarSign, Calendar, User } from "lucide-react"
+import { useOrders, useTransactions } from "@/api/hooks"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const statusConfig: Record<string, string> = {
   paid: "bg-success/10 text-success",
@@ -13,28 +13,28 @@ const statusConfig: Record<string, string> = {
   completed: "bg-success/10 text-success",
   pending: "bg-warning/10 text-warning",
   failed: "bg-destructive/10 text-destructive",
-};
+}
 
 interface Invoice {
-  id: string;
-  invoiceNumber: string;
-  orderId: string;
-  orderNumber: string;
-  amount: number;
-  status: string;
-  date: string;
-  clientName?: string;
-  items: Array<{ name: string; qty: number; price: number }>;
-  subtotal: number;
-  tax: number;
-  total: number;
+  id: string
+  invoiceNumber: string
+  orderId: string
+  orderNumber: string
+  amount: number
+  status: string
+  date: string
+  clientName?: string
+  items: Array<{ name: string; qty: number; price: number }>
+  subtotal: number
+  tax: number
+  total: number
 }
 
 export default function ManagerInvoices() {
-  const { data: orders = [], isLoading: ordersLoading } = useOrders();
-  const { data: transactions = [], isLoading: transLoading } = useTransactions();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const { data: orders = [], isLoading: ordersLoading } = useOrders()
+  const { data: transactions = [], isLoading: transLoading } = useTransactions()
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null)
 
   // Generate invoices from completed orders and transactions
   const invoices: Invoice[] = useMemo(() => {
@@ -53,53 +53,53 @@ export default function ManagerInvoices() {
         subtotal: order.subtotal,
         tax: order.vat,
         total: order.total,
-      }));
-  }, [orders]);
+      }))
+  }, [orders])
 
   const filtered = useMemo(() => {
-    const term = searchTerm.trim().toLowerCase();
-    if (!term) return invoices;
+    const term = searchTerm.trim().toLowerCase()
+    if (!term) return invoices
 
     return invoices.filter(
       (inv) =>
         inv.invoiceNumber.toLowerCase().includes(term) ||
         inv.orderNumber.toLowerCase().includes(term) ||
         inv.clientName?.toLowerCase().includes(term)
-    );
-  }, [invoices, searchTerm]);
+    )
+  }, [invoices, searchTerm])
 
   const stats = useMemo(() => {
-    const totalAmount = invoices.reduce((sum, inv) => sum + inv.total, 0);
-    const completedCount = invoices.filter((inv) => inv.status === "completed").length;
+    const totalAmount = invoices.reduce((sum, inv) => sum + inv.total, 0)
+    const completedCount = invoices.filter((inv) => inv.status === "completed").length
 
     return {
       totalInvoices: invoices.length,
       completedInvoices: completedCount,
       totalAmount,
       avgInvoiceValue: completedCount > 0 ? totalAmount / completedCount : 0,
-    };
-  }, [invoices]);
+    }
+  }, [invoices])
 
   const downloadInvoice = (invoice: Invoice) => {
-    const invoiceHTML = generateInvoiceHTML(invoice);
-    const element = document.createElement("a");
-    const file = new Blob([invoiceHTML], { type: "text/html" });
-    element.href = URL.createObjectURL(file);
-    element.download = `${invoice.invoiceNumber}.html`;
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  };
+    const invoiceHTML = generateInvoiceHTML(invoice)
+    const element = document.createElement("a")
+    const file = new Blob([invoiceHTML], { type: "text/html" })
+    element.href = URL.createObjectURL(file)
+    element.download = `${invoice.invoiceNumber}.html`
+    document.body.appendChild(element)
+    element.click()
+    document.body.removeChild(element)
+  }
 
   const printInvoice = (invoice: Invoice) => {
-    const printWindow = window.open("", "", "height=600,width=800");
-    if (!printWindow) return;
+    const printWindow = window.open("", "", "height=600,width=800")
+    if (!printWindow) return
 
-    const invoiceHTML = generateInvoiceHTML(invoice);
-    printWindow.document.write(invoiceHTML);
-    printWindow.document.close();
-    setTimeout(() => printWindow.print(), 250);
-  };
+    const invoiceHTML = generateInvoiceHTML(invoice)
+    printWindow.document.write(invoiceHTML)
+    printWindow.document.close()
+    setTimeout(() => printWindow.print(), 250)
+  }
 
   if (ordersLoading || transLoading) {
     return (
@@ -116,7 +116,7 @@ export default function ManagerInvoices() {
           ))}
         </div>
       </div>
-    );
+    )
   }
 
   if (selectedInvoice) {
@@ -213,7 +213,7 @@ export default function ManagerInvoices() {
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   return (
@@ -311,8 +311,8 @@ export default function ManagerInvoices() {
                       variant="outline"
                       className="gap-1"
                       onClick={(e) => {
-                        e.stopPropagation();
-                        printInvoice(invoice);
+                        e.stopPropagation()
+                        printInvoice(invoice)
                       }}
                     >
                       <Eye className="h-3 w-3" />
@@ -323,8 +323,8 @@ export default function ManagerInvoices() {
                       variant="outline"
                       className="gap-1"
                       onClick={(e) => {
-                        e.stopPropagation();
-                        downloadInvoice(invoice);
+                        e.stopPropagation()
+                        downloadInvoice(invoice)
                       }}
                     >
                       <Download className="h-3 w-3" />
@@ -338,7 +338,7 @@ export default function ManagerInvoices() {
         )}
       </div>
     </div>
-  );
+  )
 }
 
 function generateInvoiceHTML(invoice: Invoice): string {
@@ -353,7 +353,7 @@ function generateInvoiceHTML(invoice: Invoice): string {
     </tr>
   `
     )
-    .join("");
+    .join("")
 
   return `
     <!DOCTYPE html>
@@ -363,74 +363,74 @@ function generateInvoiceHTML(invoice: Invoice): string {
       <title>Invoice ${invoice.invoiceNumber}</title>
       <style>
         body {
-          font-family: 'Courier New', monospace;
-          max-width: 800px;
-          margin: 0 auto;
-          padding: 40px;
-          background: white;
+          font-family: 'Courier New', monospace
+          max-width: 800px
+          margin: 0 auto
+          padding: 40px
+          background: white
         }
         .invoice {
-          border: 1px solid #ddd;
-          padding: 40px;
+          border: 1px solid #ddd
+          padding: 40px
         }
         .header {
-          text-align: center;
-          margin-bottom: 30px;
+          text-align: center
+          margin-bottom: 30px
         }
         .header h1 {
-          margin: 0;
-          font-size: 28px;
+          margin: 0
+          font-size: 28px
         }
         .header p {
-          margin: 5px 0;
-          color: #666;
+          margin: 5px 0
+          color: #666
         }
         .invoice-info {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 30px;
-          font-size: 12px;
+          display: flex
+          justify-content: space-between
+          margin-bottom: 30px
+          font-size: 12px
         }
         .items-table {
-          width: 100%;
-          border-collapse: collapse;
-          margin: 20px 0;
-          font-size: 12px;
+          width: 100%
+          border-collapse: collapse
+          margin: 20px 0
+          font-size: 12px
         }
         .items-table th {
-          background: #f5f5f5;
-          padding: 10px;
-          text-align: left;
-          border-bottom: 2px solid #ddd;
+          background: #f5f5f5
+          padding: 10px
+          text-align: left
+          border-bottom: 2px solid #ddd
         }
         .items-table td {
-          padding: 10px;
-          border-bottom: 1px solid #eee;
+          padding: 10px
+          border-bottom: 1px solid #eee
         }
         .totals {
-          margin: 30px 0;
-          text-align: right;
-          font-size: 12px;
+          margin: 30px 0
+          text-align: right
+          font-size: 12px
         }
         .total-row {
-          display: flex;
-          justify-content: flex-end;
-          gap: 20px;
-          margin: 5px 0;
+          display: flex
+          justify-content: flex-end
+          gap: 20px
+          margin: 5px 0
         }
         .total-amount {
-          font-weight: bold;
-          font-size: 16px;
-          padding-top: 10px;
-          border-top: 2px solid #ddd;
+          font-weight: bold
+          font-size: 16px
+          padding-top: 10px
+          border-top: 2px solid #ddd
         }
         .footer {
-          text-align: center;
-          margin-top: 40px;
-          font-size: 11px;
-          color: #666;
-          border-top: 1px solid #ddd;
-          padding-top: 20px;
+          text-align: center
+          margin-top: 40px
+          font-size: 11px
+          color: #666
+          border-top: 1px solid #ddd
+          padding-top: 20px
         }
       </style>
     </head>
@@ -488,5 +488,5 @@ function generateInvoiceHTML(invoice: Invoice): string {
       </div>
     </body>
     </html>
-  `;
+  `
 }

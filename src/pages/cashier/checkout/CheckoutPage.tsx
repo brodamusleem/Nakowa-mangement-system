@@ -1,26 +1,26 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { PageHeader } from "@/components/PageHeader";
-import { CreditCard, Check } from "lucide-react";
-import { useUnpaidOrders, useCompletePayment } from "@/api/hooks";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Receipt } from "@/lib/Receipt";
-import { useAuthStore } from "@/state/authStore";
-import type { Order } from "@/types/orderTypes";
-import type { Transaction } from "@/types/analyticsTypes";
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
+import { PageHeader } from "@/components/PageHeader"
+import { CreditCard, Check } from "lucide-react"
+import { useUnpaidOrders, useCompletePayment } from "@/api/hooks"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Receipt } from "@/lib/Receipt"
+import { useAuthStore } from "@/state/authStore"
+import type { Order } from "@/types/orderTypes"
+import type { Transaction } from "@/types/analyticsTypes"
 
 export default function CheckoutPage() {
-  const { data: orders = [], isLoading } = useUnpaidOrders();
-  const completePayment = useCompletePayment();
-  const { user } = useAuthStore();
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(orders[0] || null);
-  const [paymentMethod, setPaymentMethod] = useState<"cash" | "card" | "mobile">("cash");
-  const [amountReceived, setAmountReceived] = useState("");
-  const [receipt, setReceipt] = useState<{ order: Order; transaction: Transaction } | null>(null);
+  const { data: orders = [], isLoading } = useUnpaidOrders()
+  const completePayment = useCompletePayment()
+  const { user } = useAuthStore()
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(orders[0] || null)
+  const [paymentMethod, setPaymentMethod] = useState<"cash" | "card" | "mobile">("cash")
+  const [amountReceived, setAmountReceived] = useState("")
+  const [receipt, setReceipt] = useState<{ order: Order; transaction: Transaction } | null>(null)
 
   if (isLoading) {
     return (
@@ -31,15 +31,15 @@ export default function CheckoutPage() {
           <Skeleton className="h-64 md:col-span-2" />
         </div>
       </div>
-    );
+    )
   }
 
   const change = selectedOrder
     ? Math.max(0, (parseInt(amountReceived) || 0) - (selectedOrder.total || 0))
-    : 0;
+    : 0
 
   const handleCompletePayment = async () => {
-    if (!selectedOrder || !user) return;
+    if (!selectedOrder || !user) return
     try {
       const txn = await completePayment.mutateAsync({
         order: selectedOrder,
@@ -47,14 +47,14 @@ export default function CheckoutPage() {
         amountGiven: parseInt(amountReceived) || selectedOrder.total,
         cashierId: user.id,
         cashierName: user.name,
-      });
-      setReceipt({ order: selectedOrder, transaction: txn });
-      setSelectedOrder(null);
-      setAmountReceived("");
+      })
+      setReceipt({ order: selectedOrder, transaction: txn })
+      setSelectedOrder(null)
+      setAmountReceived("")
     } catch (error) {
-      console.error("Payment failed:", error);
+      console.error("Payment failed:", error)
     }
-  };
+  }
 
   if (receipt) {
     return (
@@ -62,11 +62,11 @@ export default function CheckoutPage() {
         order={receipt.order}
         transaction={receipt.transaction}
         onClose={() => {
-          setReceipt(null);
+          setReceipt(null)
           window.location.reload(); // Refresh to show updated unpaid orders
         }}
       />
-    );
+    )
   }
 
   return (
@@ -244,5 +244,5 @@ export default function CheckoutPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

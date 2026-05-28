@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Activity, Wifi, Database, Zap } from "lucide-react";
+import { useEffect, useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Activity, Wifi, Database, Zap } from "lucide-react"
 
 interface SystemHealth {
-  isOnline: boolean;
-  latency: number;
-  dbStatus: "connected" | "disconnected";
-  apiStatus: "operational" | "degraded" | "down";
-  lastSync: Date;
-  uptime: number;
+  isOnline: boolean
+  latency: number
+  dbStatus: "connected" | "disconnected"
+  apiStatus: "operational" | "degraded" | "down"
+  lastSync: Date
+  uptime: number
 }
 
 export function SystemHealth() {
@@ -20,42 +20,42 @@ export function SystemHealth() {
     apiStatus: "operational",
     lastSync: new Date(),
     uptime: 99.9,
-  });
+  })
 
   useEffect(() => {
-    const handleOnline = () => setHealth((prev) => ({ ...prev, isOnline: true }));
-    const handleOffline = () => setHealth((prev) => ({ ...prev, isOnline: false }));
+    const handleOnline = () => setHealth((prev) => ({ ...prev, isOnline: true }))
+    const handleOffline = () => setHealth((prev) => ({ ...prev, isOnline: false }))
 
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline)
+    window.addEventListener("offline", handleOffline)
 
     // Simulate latency check every 30 seconds
     const latencyInterval = setInterval(async () => {
-      const start = performance.now();
+      const start = performance.now()
       try {
-        const response = await fetch("/api/health", { method: "HEAD" });
-        const latency = Math.round(performance.now() - start);
+        const response = await fetch("/api/health", { method: "HEAD" })
+        const latency = Math.round(performance.now() - start)
         setHealth((prev) => ({
           ...prev,
           latency,
           apiStatus: response.ok ? "operational" : "degraded",
           lastSync: new Date(),
-        }));
+        }))
       } catch {
         setHealth((prev) => ({
           ...prev,
           latency: 0,
           apiStatus: "down",
-        }));
+        }))
       }
-    }, 30000);
+    }, 30000)
 
     return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
-      clearInterval(latencyInterval);
-    };
-  }, []);
+      window.removeEventListener("online", handleOnline)
+      window.removeEventListener("offline", handleOffline)
+      clearInterval(latencyInterval)
+    }
+  }, [])
 
   return (
     <div className="grid gap-2 md:grid-cols-4">
@@ -169,5 +169,5 @@ export function SystemHealth() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

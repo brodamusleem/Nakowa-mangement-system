@@ -1,56 +1,56 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Search, AlertTriangle, TrendingDown, RefreshCw } from "lucide-react";
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Search, AlertTriangle, TrendingDown, RefreshCw } from "lucide-react"
 import {
   useInventory,
   useRestockItem,
   useUpdateInventoryItem,
-} from "@/api/hooks";
-import { Skeleton } from "@/components/ui/skeleton";
+} from "@/api/hooks"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const statusConfig = {
   "in-stock": { color: "bg-success/10 text-success border-success/20", label: "In Stock", icon: "✓" },
   "low-stock": { color: "bg-warning/10 text-warning border-warning/20", label: "Low Stock", icon: "!" },
   "out-of-stock": { color: "bg-destructive/10 text-destructive border-destructive/20", label: "Out", icon: "✕" },
-};
+}
 
 function getInventoryStatus(quantity: number, minQuantity: number): "in-stock" | "low-stock" | "out-of-stock" {
-  if (quantity === 0) return "out-of-stock";
-  if (quantity <= minQuantity) return "low-stock";
-  return "in-stock";
+  if (quantity === 0) return "out-of-stock"
+  if (quantity <= minQuantity) return "low-stock"
+  return "in-stock"
 }
 
 export default function ManagerInventory() {
-  const { data: inventory = [], isLoading } = useInventory();
-  const restockItem = useRestockItem();
-  const updateInventoryItem = useUpdateInventoryItem();
+  const { data: inventory = [], isLoading } = useInventory()
+  const restockItem = useRestockItem()
+  const updateInventoryItem = useUpdateInventoryItem()
   
-  const [searchTerm, setSearchTerm] = useState("");
-  const [restockingId, setRestockingId] = useState<string | null>(null);
-  const [restockAmount, setRestockAmount] = useState("");
+  const [searchTerm, setSearchTerm] = useState("")
+  const [restockingId, setRestockingId] = useState<string | null>(null)
+  const [restockAmount, setRestockAmount] = useState("")
 
   const filtered = inventory.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
 
   const lowStockCount = inventory.filter(
     (i) => getInventoryStatus(i.quantity, i.minQuantity) !== "in-stock"
-  ).length;
+  ).length
 
-  const totalValue = inventory.reduce((sum, item) => sum + item.quantity * item.costPerUnit, 0);
-  const criticalItems = inventory.filter((i) => i.quantity === 0).length;
+  const totalValue = inventory.reduce((sum, item) => sum + item.quantity * item.costPerUnit, 0)
+  const criticalItems = inventory.filter((i) => i.quantity === 0).length
 
   const handleRestock = (itemId: string) => {
-    const amount = parseInt(restockAmount);
+    const amount = parseInt(restockAmount)
     if (amount > 0) {
-      restockItem.mutate({ id: itemId, amount });
-      setRestockingId(null);
-      setRestockAmount("");
+      restockItem.mutate({ id: itemId, amount })
+      setRestockingId(null)
+      setRestockAmount("")
     }
-  };
+  }
 
   if (isLoading) {
     return (
@@ -67,7 +67,7 @@ export default function ManagerInventory() {
           ))}
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -137,8 +137,8 @@ export default function ManagerInventory() {
           </Card>
         ) : (
           filtered.map((item) => {
-            const status = getInventoryStatus(item.quantity, item.minQuantity);
-            const stockPercentage = (item.quantity / (item.minQuantity * 2)) * 100;
+            const status = getInventoryStatus(item.quantity, item.minQuantity)
+            const stockPercentage = (item.quantity / (item.minQuantity * 2)) * 100
 
             return (
               <Card key={item.id} className="p-4">
@@ -198,8 +198,8 @@ export default function ManagerInventory() {
                           size="sm"
                           variant="outline"
                           onClick={() => {
-                            setRestockingId(null);
-                            setRestockAmount("");
+                            setRestockingId(null)
+                            setRestockAmount("")
                           }}
                         >
                           Cancel
@@ -219,10 +219,10 @@ export default function ManagerInventory() {
                   </div>
                 </div>
               </Card>
-            );
+            )
           })
         )}
       </div>
     </div>
-  );
+  )
 }

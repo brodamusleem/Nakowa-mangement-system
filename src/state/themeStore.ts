@@ -1,11 +1,11 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
-type Theme = "light" | "dark" | "auto" | "system";
+type Theme = "light" | "dark" | "auto" | "system"
 
 interface ThemeStore {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
+  theme: Theme
+  setTheme: (theme: Theme) => void
 }
 
 export const useThemeStore = create<ThemeStore>()(
@@ -16,4 +16,4 @@ export const useThemeStore = create<ThemeStore>()(
     }),
     { name: "nakowa_theme" }
   )
-);
+)

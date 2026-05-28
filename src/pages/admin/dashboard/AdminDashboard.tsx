@@ -1,19 +1,19 @@
-import { TrendingUp, ShoppingBag, Users, CalendarCheck } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SystemHealth } from "@/components/SystemHealth";
-import { useAnalyticsSummary, useAnalyticsMonthly, useLowStockItems } from "@/api/hooks";
-import { AdminStatsSkeleton, AdminChartSkeleton } from "@/lib/adminShimmer/AdminShimmer";
-import { formatNaira } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
+import { TrendingUp, ShoppingBag, Users, CalendarCheck } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { SystemHealth } from "@/components/SystemHealth"
+import { useAnalyticsSummary, useAnalyticsMonthly, useLowStockItems } from "@/api/hooks"
+import { AdminStatsSkeleton, AdminChartSkeleton } from "@/lib/adminShimmer/AdminShimmer"
+import { formatNaira } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
-} from "recharts";
+} from "recharts"
 
 export default function AdminDashboard() {
-  const { data: summary, isLoading: loadingSummary } = useAnalyticsSummary();
-  const { data: monthly, isLoading: loadingMonthly } = useAnalyticsMonthly();
-  const { data: lowStock }                            = useLowStockItems();
+  const { data: summary, isLoading: loadingSummary } = useAnalyticsSummary()
+  const { data: monthly, isLoading: loadingMonthly } = useAnalyticsMonthly()
+  const { data: lowStock }                            = useLowStockItems()
 
   const stats = [
     {
@@ -44,7 +44,7 @@ export default function AdminDashboard() {
       icon:  CalendarCheck,
       color: "text-orange-600",
     },
-  ];
+  ]
 
   return (
     <div className="space-y-6 p-6">
@@ -131,5 +131,5 @@ export default function AdminDashboard() {
         </Card>
       </div>
     </div>
-  );
+  )
 }

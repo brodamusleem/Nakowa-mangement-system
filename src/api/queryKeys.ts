@@ -37,4 +37,4 @@ export const queryKeys = {
   analyticsToday:   ["analytics", "today"] as const,
   analyticsMonthly: ["analytics", "monthly"] as const,
   analyticsSummary: ["analytics", "summary"] as const,
-} as const;
+} as const

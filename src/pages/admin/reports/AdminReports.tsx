@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
 
 const monthlyData = [
   { month: "Jan", sales: 400000, orders: 45 },
@@ -7,18 +7,18 @@ const monthlyData = [
   { month: "Mar", sales: 520000, orders: 58 },
   { month: "Apr", sales: 610000, orders: 65 },
   { month: "May", sales: 680000, orders: 72 },
-];
+]
 
 const categoryData = [
   { name: "Food", value: 60 },
   { name: "Beverages", value: 25 },
   { name: "Catering", value: 15 },
-];
+]
 
 export default function AdminReports() {
-  const totalRevenue = 2690000;
-  const avgOrder = 18500;
-  const totalOrders = 292;
+  const totalRevenue = 2690000
+  const avgOrder = 18500
+  const totalOrders = 292
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -89,5 +89,5 @@ export default function AdminReports() {
         </Card>
       </div>
     </div>
-  );
+  )
 }

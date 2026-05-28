@@ -1,24 +1,24 @@
-import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Calendar, Users, Edit3, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Plus, Search, Calendar, Users, Edit3, Trash2 } from "lucide-react"
 import {
   useCreateEvent,
   useDeleteEvent,
   useEvents,
   useUpdateEvent,
-} from "@/api/hooks";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { EventStatus, HallEvent } from "@/types/analyticsTypes";
+} from "@/api/hooks"
+import { Skeleton } from "@/components/ui/skeleton"
+import type { EventStatus, HallEvent } from "@/types/analyticsTypes"
 
 const statusConfig: Record<EventStatus, string> = {
   confirmed: "bg-success/10 text-success",
   pending: "bg-warning/10 text-warning",
   completed: "bg-primary/10 text-primary",
   cancelled: "bg-destructive/10 text-destructive",
-};
+}
 
 const emptyBookingForm: Omit<HallEvent, "id" | "balance" | "createdAt"> = {
   title: "",
@@ -33,18 +33,18 @@ const emptyBookingForm: Omit<HallEvent, "id" | "balance" | "createdAt"> = {
   depositPaid: 0,
   totalAmount: 0,
   notes: "",
-};
+}
 
 export default function AdminBookings() {
-  const { data: events = [], isLoading } = useEvents();
-  const createEvent = useCreateEvent();
-  const updateEvent = useUpdateEvent();
-  const deleteEvent = useDeleteEvent();
+  const { data: events = [], isLoading } = useEvents()
+  const createEvent = useCreateEvent()
+  const updateEvent = useUpdateEvent()
+  const deleteEvent = useDeleteEvent()
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showForm, setShowForm] = useState(false);
-  const [editingEvent, setEditingEvent] = useState<HallEvent | null>(null);
-  const [formState, setFormState] = useState(emptyBookingForm);
+  const [searchTerm, setSearchTerm] = useState("")
+  const [showForm, setShowForm] = useState(false)
+  const [editingEvent, setEditingEvent] = useState<HallEvent | null>(null)
+  const [formState, setFormState] = useState(emptyBookingForm)
 
   const filteredEvents = useMemo(
     () =>
@@ -55,16 +55,16 @@ export default function AdminBookings() {
           .includes(searchTerm.toLowerCase())
       ),
     [events, searchTerm]
-  );
+  )
 
   const openNewBooking = () => {
-    setEditingEvent(null);
-    setFormState(emptyBookingForm);
-    setShowForm(true);
-  };
+    setEditingEvent(null)
+    setFormState(emptyBookingForm)
+    setShowForm(true)
+  }
 
   const openEditBooking = (event: HallEvent) => {
-    setEditingEvent(event);
+    setEditingEvent(event)
     setFormState({
       title: event.title,
       hall: event.hall,
@@ -78,14 +78,14 @@ export default function AdminBookings() {
       depositPaid: event.depositPaid,
       totalAmount: event.totalAmount,
       notes: event.notes,
-    });
-    setShowForm(true);
-  };
+    })
+    setShowForm(true)
+  }
 
   const saveBooking = () => {
     if (!formState.clientName || !formState.clientPhone || !formState.date) {
-      alert("Please fill in the client name, phone, and date.");
-      return;
+      alert("Please fill in the client name, phone, and date.")
+      return
     }
 
     const payload = {
@@ -94,26 +94,26 @@ export default function AdminBookings() {
       depositPaid: Number(formState.depositPaid),
       totalAmount: Number(formState.totalAmount),
       status: formState.status,
-    };
-
-    if (editingEvent) {
-      updateEvent.mutate({ id: editingEvent.id, ...payload });
-    } else {
-      createEvent.mutate(payload);
     }
 
-    setShowForm(false);
-  };
+    if (editingEvent) {
+      updateEvent.mutate({ id: editingEvent.id, ...payload })
+    } else {
+      createEvent.mutate(payload)
+    }
+
+    setShowForm(false)
+  }
 
   const handleCancelBooking = (event: HallEvent) => {
-    updateEvent.mutate({ id: event.id, status: "cancelled" });
-  };
+    updateEvent.mutate({ id: event.id, status: "cancelled" })
+  }
 
   const handleDeleteBooking = (event: HallEvent) => {
     if (window.confirm("Delete this booking?")) {
-      deleteEvent.mutate(event.id);
+      deleteEvent.mutate(event.id)
     }
-  };
+  }
 
   if (isLoading) {
     return (
@@ -125,7 +125,7 @@ export default function AdminBookings() {
           ))}
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -293,5 +293,5 @@ export default function AdminBookings() {
         </Card>
       )}
     </div>
-  );
+  )
 }

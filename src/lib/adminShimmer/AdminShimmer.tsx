@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 
 /** Dashboard stat cards shimmer */
 export function AdminStatsSkeleton() {
@@ -17,7 +17,7 @@ export function AdminStatsSkeleton() {
         </Card>
       ))}
     </div>
-  );
+  )
 }
 
 /** Users table shimmer */
@@ -36,7 +36,7 @@ export function AdminUsersSkeleton() {
         </div>
       ))}
     </div>
-  );
+  )
 }
 
 /** Chart shimmer */
@@ -50,5 +50,5 @@ export function AdminChartSkeleton() {
         <Skeleton className="h-64 w-full rounded-lg" />
       </CardContent>
     </Card>
-  );
+  )
 }

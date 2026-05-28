@@ -1,24 +1,24 @@
-import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Calendar, Users, Edit3, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Plus, Search, Calendar, Users, Edit3, Trash2 } from "lucide-react"
 import {
   useCreateEvent,
   useDeleteEvent,
   useEvents,
   useUpdateEvent,
-} from "@/api/hooks";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { EventStatus, HallEvent } from "@/types/analyticsTypes";
+} from "@/api/hooks"
+import { Skeleton } from "@/components/ui/skeleton"
+import type { EventStatus, HallEvent } from "@/types/analyticsTypes"
 
 const statusConfig: Record<EventStatus, string> = {
   confirmed: "bg-success/10 text-success",
   pending: "bg-warning/10 text-warning",
   completed: "bg-primary/10 text-primary",
   cancelled: "bg-destructive/10 text-destructive",
-};
+}
 
 const emptyEventForm = {
   title: "",
@@ -33,17 +33,17 @@ const emptyEventForm = {
   depositPaid: 0,
   totalAmount: 0,
   notes: "",
-};
+}
 
 export default function AdminEvents() {
-  const { data: events = [], isLoading } = useEvents();
-  const createEvent = useCreateEvent();
-  const updateEvent = useUpdateEvent();
-  const deleteEvent = useDeleteEvent();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showForm, setShowForm] = useState(false);
-  const [editingEvent, setEditingEvent] = useState<HallEvent | null>(null);
-  const [formState, setFormState] = useState(emptyEventForm);
+  const { data: events = [], isLoading } = useEvents()
+  const createEvent = useCreateEvent()
+  const updateEvent = useUpdateEvent()
+  const deleteEvent = useDeleteEvent()
+  const [searchTerm, setSearchTerm] = useState("")
+  const [showForm, setShowForm] = useState(false)
+  const [editingEvent, setEditingEvent] = useState<HallEvent | null>(null)
+  const [formState, setFormState] = useState(emptyEventForm)
 
   const filtered = useMemo(
     () =>
@@ -53,21 +53,21 @@ export default function AdminEvents() {
           event.clientName.toLowerCase().includes(searchTerm.toLowerCase())
       ),
     [events, searchTerm]
-  );
+  )
 
   const totalRevenue = useMemo(
     () => events.reduce((sum, event) => sum + event.totalAmount, 0),
     [events]
-  );
+  )
 
   const openNewForm = () => {
-    setEditingEvent(null);
-    setFormState(emptyEventForm);
-    setShowForm(true);
-  };
+    setEditingEvent(null)
+    setFormState(emptyEventForm)
+    setShowForm(true)
+  }
 
   const openEditForm = (event: HallEvent) => {
-    setEditingEvent(event);
+    setEditingEvent(event)
     setFormState({
       title: event.title,
       hall: event.hall,
@@ -81,13 +81,13 @@ export default function AdminEvents() {
       depositPaid: event.depositPaid,
       totalAmount: event.totalAmount,
       notes: event.notes,
-    });
-    setShowForm(true);
-  };
+    })
+    setShowForm(true)
+  }
 
   const handleFormChange = (field: keyof typeof emptyEventForm, value: string | number) => {
-    setFormState((prev) => ({ ...prev, [field]: value }));
-  };
+    setFormState((prev) => ({ ...prev, [field]: value }))
+  }
 
   const handleSaveEvent = () => {
     const payload = {
@@ -96,26 +96,26 @@ export default function AdminEvents() {
       depositPaid: Number(formState.depositPaid),
       totalAmount: Number(formState.totalAmount),
       status: formState.status,
-    };
-
-    if (editingEvent) {
-      updateEvent.mutate({ id: editingEvent.id, ...payload });
-    } else {
-      createEvent.mutate(payload);
     }
 
-    setShowForm(false);
-  };
+    if (editingEvent) {
+      updateEvent.mutate({ id: editingEvent.id, ...payload })
+    } else {
+      createEvent.mutate(payload)
+    }
+
+    setShowForm(false)
+  }
 
   const handleCancelEvent = (event: HallEvent) => {
-    updateEvent.mutate({ id: event.id, status: "cancelled" });
-  };
+    updateEvent.mutate({ id: event.id, status: "cancelled" })
+  }
 
   const handleRemoveEvent = (event: HallEvent) => {
     if (window.confirm("Delete this event?")) {
-      deleteEvent.mutate(event.id);
+      deleteEvent.mutate(event.id)
     }
-  };
+  }
 
   if (isLoading) {
     return (
@@ -127,7 +127,7 @@ export default function AdminEvents() {
           ))}
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -297,5 +297,5 @@ export default function AdminEvents() {
         ))}
       </div>
     </div>
-  );
+  )
 }

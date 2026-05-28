@@ -1,11 +1,11 @@
-﻿import { useMemo, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Search, Clock } from "lucide-react";
-import { useOrders } from "@/api/hooks";
-import type { OrderStatus } from "@/types/orderTypes";
+﻿import { useMemo, useState } from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Search, Clock } from "lucide-react"
+import { useOrders } from "@/api/hooks"
+import type { OrderStatus } from "@/types/orderTypes"
 
 const statusConfig: Record<OrderStatus, { color: string; label: string }> = {
   pending: { color: "bg-warning/10 text-warning", label: "Pending" },
@@ -13,23 +13,23 @@ const statusConfig: Record<OrderStatus, { color: string; label: string }> = {
   ready: { color: "bg-success/10 text-success", label: "Ready" },
   completed: { color: "bg-success/10 text-success", label: "Completed" },
   cancelled: { color: "bg-destructive/10 text-destructive", label: "Cancelled" },
-};
+}
 
 export default function ManagerOrders() {
-  const { data: orders = [], isLoading } = useOrders();
-  const [searchTerm, setSearchTerm] = useState("");
+  const { data: orders = [], isLoading } = useOrders()
+  const [searchTerm, setSearchTerm] = useState("")
 
   const filtered = useMemo(() => {
-    const term = searchTerm.trim().toLowerCase();
-    if (!term) return orders;
+    const term = searchTerm.trim().toLowerCase()
+    if (!term) return orders
 
     return orders.filter((order) =>
       order.orderNumber.toLowerCase().includes(term) ||
       (order.tableName?.toLowerCase().includes(term) ?? false) ||
       order.items.some((item) => item.name.toLowerCase().includes(term)) ||
       order.type.toLowerCase().includes(term)
-    );
-  }, [orders, searchTerm]);
+    )
+  }, [orders, searchTerm])
 
   const statusOrder: Record<OrderStatus, number> = {
     pending: 0,
@@ -37,21 +37,21 @@ export default function ManagerOrders() {
     ready: 2,
     completed: 3,
     cancelled: 4,
-  };
+  }
 
   const sorted = useMemo(
     () => [...filtered].sort((a, b) => statusOrder[a.status] - statusOrder[b.status]),
     [filtered]
-  );
+  )
 
   const statusCounts = useMemo(
     () =>
       orders.reduce((acc, order) => {
-        acc[order.status] = (acc[order.status] || 0) + 1;
-        return acc;
+        acc[order.status] = (acc[order.status] || 0) + 1
+        return acc
       }, {} as Record<OrderStatus, number>),
     [orders]
-  );
+  )
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -138,5 +138,5 @@ export default function ManagerOrders() {
         )}
       </div>
     </div>
-  );
+  )
 }

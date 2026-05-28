@@ -1,13 +1,13 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useActiveKitchenOrders, useUpdateKitchenStatus } from "@/api/hooks";
-import { KitchenTicketSkeleton } from "@/lib/kitchenShimmer/KitchenShimmer";
-import { useWebSocket } from "@/hooks/useWebSocket";
-import { formatDate } from "@/lib/utils";
-import { PageHeader } from "@/components/PageHeader";
-import type { Order } from "@/types/orderTypes";
-import { ChefHat, Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useActiveKitchenOrders, useUpdateKitchenStatus } from "@/api/hooks"
+import { KitchenTicketSkeleton } from "@/lib/kitchenShimmer/KitchenShimmer"
+import { useWebSocket } from "@/hooks/useWebSocket"
+import { formatDate } from "@/lib/utils"
+import { PageHeader } from "@/components/PageHeader"
+import type { Order } from "@/types/orderTypes"
+import { ChefHat, Clock } from "lucide-react"
 
 function OrderTicket({ order, action }: { order: Order; action?: React.ReactNode }) {
   return (
@@ -39,17 +39,17 @@ function OrderTicket({ order, action }: { order: Order; action?: React.ReactNode
         {action && <div className="pt-3">{action}</div>}
       </CardContent>
     </Card>
-  );
+  )
 }
 
 export default function KitchenDisplay() {
   useWebSocket(); // Real-time updates
-  const { pending, preparing, ready, isLoading } = useActiveKitchenOrders();
-  const updateStatus = useUpdateKitchenStatus();
+  const { pending, preparing, ready, isLoading } = useActiveKitchenOrders()
+  const updateStatus = useUpdateKitchenStatus()
 
-  if (isLoading) return <KitchenTicketSkeleton />;
+  if (isLoading) return <KitchenTicketSkeleton />
 
-  const total = pending.length + preparing.length + ready.length;
+  const total = pending.length + preparing.length + ready.length
 
   return (
     <div className="flex h-screen flex-col bg-background">
@@ -157,5 +157,5 @@ export default function KitchenDisplay() {
         </section>
       </div>
     </div>
-  );
+  )
 }

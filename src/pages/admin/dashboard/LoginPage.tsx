@@ -1,28 +1,28 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Navigate } from "react-router-dom";
-import { ChefHat } from "lucide-react";
-import { toast } from "sonner";
-import { loginSchema, type LoginFormValues } from "@/lib/validation";
-import { useLogin } from "@/api/hooks";
-import { useAuth } from "@/state/context/AuthContext";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Navigate } from "react-router-dom"
+import { ChefHat } from "lucide-react"
+import { toast } from "sonner"
+import { loginSchema, type LoginFormValues } from "@/lib/validation"
+import { useLogin } from "@/api/hooks"
+import { useAuth } from "@/state/context/AuthContext"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 const roleOptions = [
   { label: "Admin", value: "admin", email: "admin@nakowa.com", pin: "1234" },
   { label: "Manager", value: "manager", email: "segun@nakowa.com", pin: "5555" },
   { label: "Cashier", value: "cashier", email: "amaka@nakowa.com", pin: "2222" },
   { label: "Kitchen", value: "kitchen", email: "fatima@nakowa.com", pin: "4444" },
-];
+]
 
 export default function LoginPage() {
-  const { isAuthenticated } = useAuth();
-  const login = useLogin();
-  const [selectedRole, setSelectedRole] = useState(roleOptions[0].value);
+  const { isAuthenticated } = useAuth()
+  const login = useLogin()
+  const [selectedRole, setSelectedRole] = useState(roleOptions[0].value)
 
   const {
     register,
@@ -35,21 +35,21 @@ export default function LoginPage() {
       email: roleOptions[0].email,
       pin: roleOptions[0].pin,
     },
-  });
+  })
 
-  if (isAuthenticated) return <Navigate to="/" replace />;
+  if (isAuthenticated) return <Navigate to="/" replace />
 
   const onRoleSelect = (role: typeof roleOptions[number]) => {
-    setSelectedRole(role.value);
-    setValue("email", role.email, { shouldTouch: false });
-    setValue("pin", role.pin, { shouldTouch: false });
-  };
+    setSelectedRole(role.value)
+    setValue("email", role.email, { shouldTouch: false })
+    setValue("pin", role.pin, { shouldTouch: false })
+  }
 
   const onSubmit = (data: LoginFormValues) => {
     login.mutate(data, {
       onError: (err) => toast.error(err.message),
-    });
-  };
+    })
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4">
@@ -114,5 +114,5 @@ export default function LoginPage() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

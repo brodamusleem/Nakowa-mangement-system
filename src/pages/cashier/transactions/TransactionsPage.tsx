@@ -1,41 +1,44 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { PageHeader } from "@/components/PageHeader";
-import { Search, Download, History } from "lucide-react";
-import { useTransactions } from "@/api/hooks";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { PageHeader } from "@/components/PageHeader"
+import { Search, Download, History } from "lucide-react"
+import { useTransactions } from "@/api/hooks"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const statusConfig = {
   completed: "bg-success/10 text-success border-success/20",
   failed: "bg-destructive/10 text-destructive border-destructive/20",
   pending: "bg-warning/10 text-warning border-warning/20",
-};
+  paid: "bg-success/10 text-success border-success/20",
+  refunded: "bg-info/10 text-info border-info/20",
+}
 
 const methodLabels = {
   cash: "Cash",
   card: "Card",
   mobile: "Mobile Money",
-};
+  transfer: "Bank Transfer",
+}
 
 export default function TransactionsPage() {
-  const { data: transactions = [], isLoading } = useTransactions();
-  const [searchTerm, setSearchTerm] = useState("");
+  const { data: transactions = [], isLoading } = useTransactions()
+  const [searchTerm, setSearchTerm] = useState("")
 
   const filtered = transactions.filter(
     (t) =>
       t.reference?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       t.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
 
   const totalAmount = transactions
     .filter((t) => t.status === "completed")
-    .reduce((sum, t) => sum + t.amount, 0);
+    .reduce((sum, t) => sum + t.amount, 0)
   const failedAmount = transactions
     .filter((t) => t.status === "failed")
-    .reduce((sum, t) => sum + t.amount, 0);
+    .reduce((sum, t) => sum + t.amount, 0)
 
   if (isLoading) {
     return (
@@ -47,7 +50,7 @@ export default function TransactionsPage() {
           ))}
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -123,5 +126,5 @@ export default function TransactionsPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

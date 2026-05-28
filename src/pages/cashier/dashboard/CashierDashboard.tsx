@@ -1,35 +1,35 @@
-import { Link } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { PageHeader } from "@/components/PageHeader";
-import { ShoppingCart, CreditCard, History, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { PageHeader } from "@/components/PageHeader"
+import { ShoppingCart, CreditCard, History, TrendingUp } from "lucide-react"
 import {
   useUnpaidOrders,
   useTransactions,
   useAnalyticsSummary,
-} from "@/api/hooks";
-import { useAuthStore } from "@/state/authStore";
+} from "@/api/hooks"
+import { useAuthStore } from "@/state/authStore"
 
 export default function CashierDashboard() {
-  const { user } = useAuthStore();
-  const { data: unpaidOrders = [] } = useUnpaidOrders();
-  const { data: transactions = [] } = useTransactions();
-  const { data: analytics } = useAnalyticsSummary();
+  const { user } = useAuthStore()
+  const { data: unpaidOrders = [] } = useUnpaidOrders()
+  const { data: transactions = [] } = useTransactions()
+  const { data: analytics } = useAnalyticsSummary()
 
   const todayTransactions = transactions.filter((t) => {
-    const txnDate = new Date(t.createdAt).toLocaleDateString();
-    const today = new Date().toLocaleDateString();
-    return txnDate === today;
-  });
+    const txnDate = new Date(t.createdAt).toLocaleDateString()
+    const today = new Date().toLocaleDateString()
+    return txnDate === today
+  })
 
   const todayRevenue = todayTransactions
     .filter((t) => t.status === "paid" || t.status === "completed")
-    .reduce((sum, t) => sum + t.amount, 0);
+    .reduce((sum, t) => sum + t.amount, 0)
 
   const successfulTransactions = todayTransactions.filter(
     (t) => t.status === "paid" || t.status === "completed"
-  ).length;
+  ).length
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -191,12 +191,12 @@ export default function CashierDashboard() {
                   <p className="text-sm text-muted-foreground">Payment Methods</p>
                   <p className="text-sm space-y-1">
                     {["cash", "card", "mobile"].map((method) => {
-                      const count = todayTransactions.filter((t) => t.method === method).length;
+                      const count = todayTransactions.filter((t) => t.method === method).length
                       return count > 0 ? (
                         <span key={method} className="block capitalize">
                           {method}: {count}
                         </span>
-                      ) : null;
+                      ) : null
                     })}
                   </p>
                 </div>
@@ -206,5 +206,5 @@ export default function CashierDashboard() {
         </div>
       )}
     </div>
-  );
+  )
 }

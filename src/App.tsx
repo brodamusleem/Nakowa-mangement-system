@@ -1,19 +1,19 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Toaster } from "sonner";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { Toaster } from "sonner"
 
-import { AuthProvider } from "@/state/context/AuthContext";
-import { ThemeProvider } from "@/state/provider/ThemeProvider";
-import { RootErrorBoundary } from "@/components/error-message/RootErrorBoundary";
+import { AuthProvider } from "@/state/context/AuthContext"
+import { ThemeProvider } from "@/state/provider/ThemeProvider"
+import { RootErrorBoundary } from "@/components/error-message/RootErrorBoundary"
 import {
   RootRedirect, AdminRoute, ManagerRoute,
   CashierRoute, KitchenRoute,
-} from "@/components/RouteGuards";
+} from "@/components/RouteGuards"
 
 // ── Static imports (small, always needed) ────────────────────────────────────
-import LoginPage             from "@/pages/admin/dashboard/LoginPage";
-import AdminDashboardLayout  from "@/pages/admin/dashboard/AdminDashboardLayout";
+import LoginPage             from "@/pages/admin/dashboard/LoginPage"
+import AdminDashboardLayout  from "@/pages/admin/dashboard/AdminDashboardLayout"
 
 // ── Query client ──────────────────────────────────────────────────────────────
 const queryClient = new QueryClient({
@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
     },
   },
-});
+})
 
 // ── Router ────────────────────────────────────────────────────────────────────
 const router = createBrowserRouter([
@@ -59,8 +59,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/admin/dashboard/AdminDashboard"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -69,8 +69,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/admin/bookings/AdminBookings"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -79,8 +79,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/admin/inventory/AdminInventory"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -89,8 +89,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/admin/events/AdminEvents"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -99,8 +99,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/admin/users/AdminUsers"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -109,8 +109,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/admin/reports/AdminReports"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -119,8 +119,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/admin/system/SystemPreferences"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -142,8 +142,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/manager/dashboard/ManagerDashboard"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -152,8 +152,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/manager/orders/ManagerOrders"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -162,8 +162,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/manager/reports/ManagerReports"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -172,8 +172,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/manager/bookings/ManagerBookings"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -182,8 +182,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/manager/inventory/ManagerInventory"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -192,8 +192,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/manager/invoices/ManagerInvoices"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -210,8 +210,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/cashier/dashboard/CashierDashboard"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -225,8 +225,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/cashier/pos/POSPage"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -235,8 +235,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/cashier/checkout/CheckoutPage"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -245,8 +245,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/cashier/transactions/TransactionsPage"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -268,8 +268,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: Component } = await import(
             "@/pages/kitchen/display/KitchenDisplay"
-          );
-          return { Component };
+          )
+          return { Component }
         },
         errorElement: <RootErrorBoundary />,
       },
@@ -281,7 +281,7 @@ const router = createBrowserRouter([
     path: "*",
     element: <RootErrorBoundary />,
   },
-]);
+])
 
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
@@ -295,5 +295,5 @@ export default function App() {
         </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>
-  );
+  )
 }

@@ -1,17 +1,16 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom"
 import {
   LayoutDashboard, ShoppingCart, Package, CalendarDays,
   Users, BarChart3, Settings, LogOut, ChefHat, FileText,
-} from "lucide-react";
-import { useAuth } from "@/state/context/AuthContext";
-import { useOfflineSync } from "@/hooks/useOfflineSync";
-import { useWebSocket } from "@/hooks/useWebSocket";
-import { getInitials } from "@/lib/utils";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-import { DevRoleSwitcher } from "@/components/DevRoleSwitcher";
+} from "lucide-react"
+import { useAuth } from "@/state/context/AuthContext"
+import { useOfflineSync } from "@/hooks/useOfflineSync"
+import { useWebSocket } from "@/hooks/useWebSocket"
+import { getInitials } from "@/lib/utils"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
 
 const ADMIN_NAV = [
   { label: "Dashboard",   to: "",           icon: LayoutDashboard, end: true },
@@ -21,7 +20,7 @@ const ADMIN_NAV = [
   { label: "Users",       to: "users",      icon: Users },
   { label: "Reports",     to: "reports",    icon: BarChart3 },
   { label: "Settings",    to: "settings",   icon: Settings },
-];
+]
 
 const MANAGER_NAV = [
   { label: "Dashboard",   to: "",           icon: LayoutDashboard, end: true },
@@ -30,16 +29,16 @@ const MANAGER_NAV = [
   { label: "Inventory",   to: "inventory",  icon: Package },
   { label: "Invoices",    to: "invoices",   icon: FileText },
   { label: "Reports",     to: "reports",    icon: BarChart3 },
-];
+]
 
 export default function AdminDashboardLayout() {
-  const { user, logout } = useAuth();
-  const { isOnline, queueLength } = useOfflineSync();
+  const { user, logout } = useAuth()
+  const { isOnline, queueLength } = useOfflineSync()
 
   // Mount WebSocket listener once at layout level
-  useWebSocket();
+  useWebSocket()
 
-  const NAV = user?.role === "manager" ? MANAGER_NAV : ADMIN_NAV;
+  const NAV = user?.role === "manager" ? MANAGER_NAV : ADMIN_NAV
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
@@ -101,7 +100,6 @@ export default function AdminDashboardLayout() {
               <LogOut className="h-4 w-4" />
             </Button>
           </div>
-          <DevRoleSwitcher />
         </div>
       </aside>
 
@@ -110,5 +108,5 @@ export default function AdminDashboardLayout() {
         <Outlet />
       </main>
     </div>
-  );
+  )
 }

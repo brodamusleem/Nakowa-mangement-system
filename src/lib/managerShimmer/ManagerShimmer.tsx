@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 
 /** Orders list shimmer */
 export function ManagerOrdersSkeleton() {
@@ -19,7 +19,7 @@ export function ManagerOrdersSkeleton() {
         </Card>
       ))}
     </div>
-  );
+  )
 }
 
 /** Reports summary shimmer */
@@ -38,7 +38,7 @@ export function ManagerReportsSkeleton() {
         </Card>
       ))}
     </div>
-  );
+  )
 }
 
 /** Staff list shimmer */
@@ -56,5 +56,5 @@ export function ManagerStaffSkeleton() {
         </div>
       ))}
     </div>
-  );
+  )
 }

@@ -1,9 +1,9 @@
-import { useMemo } from "react";
-import { Link } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
-import { TrendingUp, Users, ShoppingCart, Clock, ArrowRight, DollarSign, CalendarCheck } from "lucide-react";
-import { useAnalyticsSummary, useAnalyticsMonthly, useEvents, useTransactions } from "@/api/hooks";
+import { useMemo } from "react"
+import { Link } from "react-router-dom"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts"
+import { TrendingUp, Users, ShoppingCart, Clock, ArrowRight, DollarSign, CalendarCheck } from "lucide-react"
+import { useAnalyticsSummary, useAnalyticsMonthly, useEvents, useTransactions } from "@/api/hooks"
 
 const fallbackSalesData = [
   { date: "Mon", sales: 120000 },
@@ -13,41 +13,41 @@ const fallbackSalesData = [
   { date: "Fri", sales: 195000 },
   { date: "Sat", sales: 240000 },
   { date: "Sun", sales: 185000 },
-];
+]
 
-const transactionPalette = ["hsl(213 100% 50%)", "hsl(142 76% 36%)", "hsl(38 92% 50%)", "hsl(330 84% 55%)"];
+const transactionPalette = ["hsl(213 100% 50%)", "hsl(142 76% 36%)", "hsl(38 92% 50%)", "hsl(330 84% 55%)"]
 
 export default function ManagerDashboard() {
-  const { data: summary, isLoading: loadingSummary } = useAnalyticsSummary();
-  const { data: monthly, isLoading: loadingMonthly } = useAnalyticsMonthly();
-  const { data: transactions = [], isLoading: loadingTransactions } = useTransactions();
-  const { data: events = [], isLoading: loadingEvents } = useEvents();
+  const { data: summary, isLoading: loadingSummary } = useAnalyticsSummary()
+  const { data: monthly, isLoading: loadingMonthly } = useAnalyticsMonthly()
+  const { data: transactions = [], isLoading: loadingTransactions } = useTransactions()
+  const { data: events = [], isLoading: loadingEvents } = useEvents()
 
-  const isLoading = loadingSummary || loadingMonthly || loadingTransactions || loadingEvents;
-  const currentYear = new Date().getFullYear();
+  const isLoading = loadingSummary || loadingMonthly || loadingTransactions || loadingEvents
+  const currentYear = new Date().getFullYear()
 
   const yearTransactions = useMemo(
     () => transactions.filter((txn) => new Date(txn.createdAt).getFullYear() === currentYear),
     [transactions, currentYear]
-  );
+  )
 
   const paymentMethodBreakdown = useMemo(() => {
     const totals = yearTransactions.reduce(
       (acc, txn) => {
-        const key = (txn.method as keyof typeof acc) ?? "other";
-        acc[key] = (acc[key] || 0) + txn.amount;
-        return acc;
+        const key = (txn.method as keyof typeof acc) ?? "other"
+        acc[key] = (acc[key] || 0) + txn.amount
+        return acc
       },
       { cash: 0, transfer: 0, card: 0, other: 0 }
-    );
+    )
 
-    return Object.entries(totals).map(([name, value]) => ({ name, value }));
-  }, [yearTransactions]);
+    return Object.entries(totals).map(([name, value]) => ({ name, value }))
+  }, [yearTransactions])
 
   const eventPaymentSummary = useMemo(() => {
-    const liveEvents = events.filter((event) => event.status !== "cancelled");
-    const depositPaid = liveEvents.reduce((sum, event) => sum + event.depositPaid, 0);
-    const totalValue = liveEvents.reduce((sum, event) => sum + event.totalAmount, 0);
+    const liveEvents = events.filter((event) => event.status !== "cancelled")
+    const depositPaid = liveEvents.reduce((sum, event) => sum + event.depositPaid, 0)
+    const totalValue = liveEvents.reduce((sum, event) => sum + event.totalAmount, 0)
 
     return {
       totalEvents: liveEvents.length,
@@ -55,23 +55,23 @@ export default function ManagerDashboard() {
       depositPaid,
       outstandingBalance: totalValue - depositPaid,
       totalValue,
-    };
-  }, [events]);
+    }
+  }, [events])
 
-  const salesTimeline = monthly?.salesByDay?.length ? monthly.salesByDay : fallbackSalesData;
-  const annualRevenue = yearTransactions.reduce((sum, txn) => sum + txn.amount, 0);
-  const monthlyRevenue = monthly?.totalSales ?? 0;
-  const monthlyProfit = monthly?.netProfit ?? 0;
-  const todayRevenue = summary?.totalSales ?? 0;
-  const totalOrders = summary?.totalOrders ?? 0;
-  const activeCustomers = summary?.totalCustomers ?? 0;
-  const avgOrderTime = 18;
+  const salesTimeline = monthly?.salesByDay?.length ? monthly.salesByDay : fallbackSalesData
+  const annualRevenue = yearTransactions.reduce((sum, txn) => sum + txn.amount, 0)
+  const monthlyRevenue = monthly?.totalSales ?? 0
+  const monthlyProfit = monthly?.netProfit ?? 0
+  const todayRevenue = summary?.totalSales ?? 0
+  const totalOrders = summary?.totalOrders ?? 0
+  const activeCustomers = summary?.totalCustomers ?? 0
+  const avgOrderTime = 18
 
   const managerRoutes = [
     { label: "Dashboard", href: "/manager", description: "Overview and analytics", icon: TrendingUp },
     { label: "Orders", href: "/manager/orders", description: "Track order flow", icon: ShoppingCart },
     { label: "Reports", href: "/manager/reports", description: "Revenue and performance", icon: Users },
-  ];
+  ]
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -84,7 +84,7 @@ export default function ManagerDashboard() {
       {/* Manager routes */}
       <div className="grid gap-3 md:grid-cols-3">
         {managerRoutes.map((route) => {
-          const Icon = route.icon;
+          const Icon = route.icon
           return (
             <Card key={route.href} className="group">
               <CardContent className="flex h-full flex-col justify-between gap-4">
@@ -104,7 +104,7 @@ export default function ManagerDashboard() {
                 </Link>
               </CardContent>
             </Card>
-          );
+          )
         })}
       </div>
 
@@ -247,5 +247,5 @@ export default function ManagerDashboard() {
         </Card>
       </div>
     </div>
-  );
+  )
 }
