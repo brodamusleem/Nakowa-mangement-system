@@ -14,10 +14,13 @@ import userRoutes        from "./routes/users.ts"
 
 const app    = express()
 const server = createServer(app)
-const PORT   = process.env.PORT || 3001
+const PORT   = Number(process.env.PORT || 3001)
 
 // ── Middleware ─────────────────────────────────────────────────────────────────
-app.use(cors({ origin: ["http://localhost:5173", "http://localhost:5174"], credentials: true }))
+app.use(cors({
+  origin: true,
+  credentials: true
+}))
 app.use(express.json())
 
 // ── Routes ────────────────────────────────────────────────────────────────────
