@@ -17,9 +17,10 @@ const server = createServer(app)
 const PORT   = Number(process.env.PORT || 3001)
 
 // ── Middleware ─────────────────────────────────────────────────────────────────
-origin: [
+const origin = [
   "http://localhost:5173",
-  "https://nakowa-mangement-system.vercel.app"]
+  "https://nakowa-mangement-system.vercel.app",
+]
 app.use(cors({ origin, credentials: true }))
 app.use(express.json())
 
