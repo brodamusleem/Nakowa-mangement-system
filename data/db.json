@@ -2,8 +2,8 @@
   "users": [
     {
       "id": "u1",
-      "name": "Admin User",
-      "email": "admin@nakowa.com",
+      "name": "Muslim Hafiz",
+      "email": "muslim@nakowa.com",
       "role": "admin",
       "pin": "1234",
       "avatar": null,
@@ -11,8 +11,8 @@
     },
     {
       "id": "u2",
-      "name": "Amaka Obi",
-      "email": "amaka@nakowa.com",
+      "name": "Nura shuaibu",
+      "email": "nura@nakowa.com",
       "role": "cashier",
       "pin": "2222",
       "avatar": null,

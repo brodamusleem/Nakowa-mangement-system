@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "@/api/queryKeys"
 import { toast } from "sonner"
 
-const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3001"
+const WS_URL = import.meta.env.VITE_WS_URL || "wss://nakowa-mangement-system.onrender.com"
 
 type WSMessage = {
   type: string
