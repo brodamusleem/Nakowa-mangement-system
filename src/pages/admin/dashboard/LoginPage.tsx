@@ -13,9 +13,9 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 const roleOptions = [
-  { label: "Admin", value: "admin", email: "admin@nakowa.com", pin: "1234" },
+  { label: "Admin", value: "admin", email: "muslim@nakowa.com", pin: "1234" },
   { label: "Manager", value: "manager", email: "segun@nakowa.com", pin: "5555" },
-  { label: "Cashier", value: "cashier", email: "amaka@nakowa.com", pin: "2222" },
+  { label: "Cashier", value: "cashier", email: "nura@nakowa.com", pin: "2222" },
   { label: "Kitchen", value: "kitchen", email: "fatima@nakowa.com", pin: "4444" },
 ]
 
@@ -109,7 +109,12 @@ export default function LoginPage() {
 
           <div className="grid gap-2 rounded-xl border border-border bg-background p-4 text-sm">
             <p className="font-medium">Quick access</p>
-            <p className="text-muted-foreground">Pick a role and credentials will populate automatically. Then sign in to reach that dashboard.</p>
+            <div className="space-y-1 text-muted-foreground">
+              <p>Admin: Muslim Hafiz — <span className="font-semibold">muslim@nakowa.com</span> / 1234</p>
+              <p>Cashier: Nura Shuaibu — <span className="font-semibold">nura@nakowa.com</span> / 2222</p>
+              <p>Manager: Segun Adeyemi — <span className="font-semibold">segun@nakowa.com</span> / 5555</p>
+              <p>Kitchen: Fatima Bello — <span className="font-semibold">fatima@nakowa.com</span> / 4444</p>
+            </div>
           </div>
         </CardContent>
       </Card>
