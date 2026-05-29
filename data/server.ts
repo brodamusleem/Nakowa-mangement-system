@@ -17,11 +17,25 @@ const server = createServer(app)
 const PORT   = Number(process.env.PORT || 3001)
 
 // ── Middleware ─────────────────────────────────────────────────────────────────
-const origin = [
+const allowedOrigins = [
   "http://localhost:5173",
   "https://nakowa-mangement-system.vercel.app",
+  "https://nakowa-mangement-system.onrender.com",
 ]
-app.use(cors({ origin, credentials: true }))
+
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+      return
+    }
+    callback(new Error("CORS origin not allowed"))
+  },
+  credentials: true,
+}
+
+app.use(cors(corsOptions))
+app.options("*", cors(corsOptions))
 app.use(express.json())
 
 // ── Routes ────────────────────────────────────────────────────────────────────
