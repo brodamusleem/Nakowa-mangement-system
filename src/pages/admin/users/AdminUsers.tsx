@@ -72,7 +72,7 @@ export default function AdminUsers() {
       }
       setShowModal(false)
     } catch (error) {
-      toast.error("Failed to save user")
+      toast.error(error instanceof Error ? error.message : "Failed to save user")
     }
   }
 
@@ -82,7 +82,7 @@ export default function AdminUsers() {
       toast.success("User deleted successfully")
       setDeleteConfirm(null)
     } catch (error) {
-      toast.error("Failed to delete user")
+      toast.error(error instanceof Error ? error.message : "Failed to deactivate user")
     }
   }
 
@@ -241,11 +241,11 @@ export default function AdminUsers() {
           <DialogHeader>
             <DialogTitle className="flex gap-2 items-center">
               <AlertCircle className="h-5 w-5 text-destructive" />
-              Delete User
+              Deactivate User
             </DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground">
-            Are you sure you want to delete this user? This action cannot be undone.
+            This will block this user from signing in. Their profile and related history will be kept.
           </p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteConfirm(null)}>
@@ -256,7 +256,7 @@ export default function AdminUsers() {
               onClick={() => deleteConfirm && handleDeleteUser(deleteConfirm)}
               disabled={deleteUser.isPending}
             >
-              Delete
+              Deactivate
             </Button>
           </DialogFooter>
         </DialogContent>

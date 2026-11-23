@@ -21,7 +21,7 @@ export interface AuthState {
 
 export interface LoginPayload {
   email: string
-  pin: string
+  password: string
 }
 
 export interface LoginResponse {

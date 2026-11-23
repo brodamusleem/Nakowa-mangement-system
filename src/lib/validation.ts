@@ -3,7 +3,7 @@ import { z } from "zod"
 // ── Auth ──────────────────────────────────────────────────────────────────────
 export const loginSchema = z.object({
   email: z.string().email("Enter a valid email"),
-  pin:   z.string().min(4, "PIN must be at least 4 digits").max(6, "PIN max 6 digits"),
+  password: z.string().min(8, "Password must have at least 8 characters"),
 })
 export type LoginFormValues = z.infer<typeof loginSchema>
 

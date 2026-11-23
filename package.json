@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "server": "ts-node-dev --respawn --transpile-only data/server.ts",
     "start": "concurrently \"npm run server\" \"npm run dev\"",
-    "supabase:migrate": "node --env-file=.env.local scripts/migrate-to-supabase.mjs"
+    "supabase:bootstrap-admin": "node --env-file=.env.local scripts/bootstrap-admin.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

@@ -110,8 +110,11 @@ Deno.serve(async (request) => {
       }
 
       if (update.email || update.password || update.active !== undefined) {
-        const authUpdate: { email?: string; password?: string; ban_duration?: string } = {}
-        if (update.email) authUpdate.email = String(update.email)
+        const authUpdate: { email?: string; email_confirm?: boolean; password?: string; ban_duration?: string } = {}
+        if (update.email) {
+          authUpdate.email = String(update.email)
+          authUpdate.email_confirm = true
+        }
         if (update.password) authUpdate.password = String(update.password)
         if (update.active !== undefined) authUpdate.ban_duration = update.active ? "none" : "876000h"
         const { error } = await admin.auth.admin.updateUserById(existing.id, authUpdate)

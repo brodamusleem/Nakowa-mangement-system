@@ -1,88 +1,79 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
+import { useOrders } from "@/api/hooks"
+import { buildWeeklyRevenue, formatCompactNaira, formatNaira, getActiveOrders, getPaidOrders, getPaidRevenue } from "@/lib/reporting"
+import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 
-const monthlyData = [
-  { month: "Jan", sales: 400000, orders: 45 },
-  { month: "Feb", sales: 480000, orders: 52 },
-  { month: "Mar", sales: 520000, orders: 58 },
-  { month: "Apr", sales: 610000, orders: 65 },
-  { month: "May", sales: 680000, orders: 72 },
-]
-
-const categoryData = [
-  { name: "Food", value: 60 },
-  { name: "Beverages", value: 25 },
-  { name: "Catering", value: 15 },
-]
+const tooltipStyle = {
+  backgroundColor: "var(--card)",
+  borderColor: "var(--border)",
+  borderRadius: "var(--radius)",
+  color: "var(--card-foreground)",
+}
 
 export default function AdminReports() {
-  const totalRevenue = 2690000
-  const avgOrder = 18500
-  const totalOrders = 292
+  const { data: orders = [], isLoading } = useOrders()
+  const weeklyData = buildWeeklyRevenue(orders, 6)
+  const paidOrders = getPaidOrders(orders)
+  const totalRevenue = getPaidRevenue(orders)
+  const totalOrders = getActiveOrders(orders).length
+  const averageOrder = paidOrders.length ? totalRevenue / paidOrders.length : 0
 
   return (
     <div className="space-y-6 p-4 md:p-6">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-semibold md:text-3xl">Reports & Analytics</h1>
-        <p className="text-sm text-muted-foreground md:text-base">View business performance and trends</p>
+        <p className="text-sm text-muted-foreground md:text-base">
+          Revenue is calculated from paid orders. Cancelled and unpaid orders are excluded from revenue.
+        </p>
       </div>
 
-      {/* KPIs */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
         <Card>
           <CardContent className="pt-4">
-            <p className="text-xs text-muted-foreground md:text-sm">Total Revenue</p>
-            <p className="text-lg font-bold md:text-2xl">₦{(totalRevenue / 1000000).toFixed(2)}m</p>
+            <p className="text-xs text-muted-foreground md:text-sm">Revenue Received</p>
+            <p className="text-lg font-bold md:text-2xl">{isLoading ? "…" : formatNaira(totalRevenue)}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4">
-            <p className="text-xs text-muted-foreground md:text-sm">Total Orders</p>
-            <p className="text-lg font-bold md:text-2xl">{totalOrders}</p>
+            <p className="text-xs text-muted-foreground md:text-sm">Orders (excluding cancelled)</p>
+            <p className="text-lg font-bold md:text-2xl">{isLoading ? "…" : totalOrders.toLocaleString()}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4">
-            <p className="text-xs text-muted-foreground md:text-sm">Avg Order Value</p>
-            <p className="text-lg font-bold md:text-2xl">₦{(avgOrder / 1000).toFixed(0)}k</p>
+            <p className="text-xs text-muted-foreground md:text-sm">Average Paid Order</p>
+            <p className="text-lg font-bold md:text-2xl">{isLoading ? "…" : formatNaira(averageOrder)}</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Charts */}
       <div className="grid gap-4 md:grid-cols-2">
-        {/* Sales Trend */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Sales Trend</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle className="text-lg">Revenue by Week · Last 6 Weeks</CardTitle></CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={monthlyData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="sales" stroke="hsl(280 100% 50%)" strokeWidth={2} />
+              <LineChart data={weeklyData}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="4 4" vertical={false} />
+                <XAxis dataKey="date" tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} axisLine={{ stroke: "var(--border)" }} tickLine={false} />
+                <YAxis tickFormatter={formatCompactNaira} tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} axisLine={false} tickLine={false} width={72} />
+                <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => formatNaira(value)} />
+                <Line type="monotone" dataKey="sales" name="Paid revenue" stroke="var(--chart-1)" strokeWidth={3} dot={{ r: 3, fill: "var(--chart-1)" }} activeDot={{ r: 6 }} />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        {/* Order Volume */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Order Volume</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle className="text-lg">Orders by Week · Last 6 Weeks</CardTitle></CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={monthlyData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="orders" fill="hsl(260 80% 60%)" />
+              <BarChart data={weeklyData}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="4 4" vertical={false} />
+                <XAxis dataKey="date" tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} axisLine={{ stroke: "var(--border)" }} tickLine={false} />
+                <YAxis allowDecimals={false} tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} axisLine={false} tickLine={false} />
+                <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => [`${value} orders`, "Orders"]} />
+                <Bar dataKey="orders" name="Orders" fill="var(--chart-2)" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>

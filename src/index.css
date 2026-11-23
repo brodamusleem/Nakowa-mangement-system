@@ -22,25 +22,25 @@
     -moz-osx-font-smoothing: grayscale;
 
     /* Background & Surface */
-    --background: hsl(35 25% 97%);
-    --foreground: hsl(25 30% 12%);
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(222 30% 12%);
     --card: hsl(0 0% 100%);
-    --card-foreground: hsl(25 25% 15%);
+    --card-foreground: hsl(222 30% 12%);
     --popover: hsl(0 0% 100%);
-    --popover-foreground: hsl(25 25% 15%);
+    --popover-foreground: hsl(222 30% 12%);
 
-    /* Brand Colors - Brown */
-    --base: hsl(35 65% 50%);
-    --primary: hsl(35 65% 50%);
+    /* Light theme controls use black with restrained neutrals */
+    --base: hsl(0 0% 8%);
+    --primary: hsl(0 0% 8%);
     --primary-foreground: hsl(0 0% 100%);
-    --secondary: hsl(25 75% 55%);
+    --secondary: hsl(0 0% 18%);
     --secondary-foreground: hsl(0 0% 100%);
 
     /* Neutral Colors */
-    --muted: hsl(35 20% 95%);
-    --muted-foreground: hsl(35 10% 45%);
-    --accent: hsl(25 90% 60%);
-    --accent-foreground: hsl(0 0% 100%);
+    --muted: hsl(220 20% 96%);
+    --muted-foreground: hsl(220 12% 42%);
+    --accent: hsl(220 16% 94%);
+    --accent-foreground: hsl(222 30% 12%);
 
     /* Semantic Colors */
     --destructive: hsl(0 84% 60%);
@@ -59,30 +59,30 @@
     --error-bg: hsl(0 84% 96%);
 
     /* Borders & Inputs */
-    --border: hsl(35 20% 88%);
-    --input: hsl(35 20% 90%);
-    --ring: hsl(35 65% 50%);
+    --border: hsl(220 16% 88%);
+    --input: hsl(220 16% 88%);
+    --ring: hsl(0 0% 8%);
     --radius: 0.5rem;
 
-    /* Sidebar - Dark Brown */
-    --sidebar: hsl(32 40% 20%);
-    --sidebar-background: hsl(32 40% 20%);
-    --sidebar-foreground: hsl(35 25% 92%);
+    /* Sidebar - deep violet */
+    --sidebar: hsl(263 45% 20%);
+    --sidebar-background: hsl(263 45% 20%);
+    --sidebar-foreground: hsl(0 0% 98%);
     --sidebar-primary: hsl(0 0% 100%);
-    --sidebar-primary-foreground: hsl(32 40% 20%);
-    --sidebar-accent: hsl(32 50% 35%);
+    --sidebar-primary-foreground: hsl(0 0% 100%);
+    --sidebar-accent: hsl(263 40% 30%);
     --sidebar-accent-foreground: hsl(0 0% 100%);
-    --sidebar-border: hsl(32 45% 30%);
-    --sidebar-ring: hsl(35 65% 50%);
-    --sidebar-muted: hsl(32 40% 30%);
+    --sidebar-border: hsl(263 35% 32%);
+    --sidebar-ring: hsl(0 0% 100%);
+    --sidebar-muted: hsl(263 35% 28%);
 
     /* Chart Colors */
-    --chart-1: hsl(35 65% 50%);
-    --chart-2: hsl(25 75% 55%);
-    --chart-3: hsl(35 70% 55%);
-    --chart-4: hsl(142 76% 36%);
-    --chart-5: hsl(35 50% 55%);
-    --chart-6: hsl(0 84% 60%);
+    --chart-1: hsl(0 0% 8%);
+    --chart-2: hsl(215 78% 48%);
+    --chart-3: hsl(35 95% 45%);
+    --chart-4: hsl(155 75% 34%);
+    --chart-5: hsl(340 78% 52%);
+    --chart-6: hsl(190 90% 38%);
 
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -101,22 +101,24 @@
    DARK MODE
    ======================================== */
 .dark {
-    --background: hsl(240 10% 8%);
+    --background: hsl(0 0% 4%);
     --foreground: hsl(0 0% 98%);
-    --card: hsl(240 8% 12%);
+    --card: hsl(0 0% 8%);
     --card-foreground: hsl(0 0% 96%);
-    --popover: hsl(240 8% 12%);
+    --popover: hsl(0 0% 8%);
     --popover-foreground: hsl(0 0% 96%);
 
-    --primary: hsl(35 65% 55%);
+    /* Dark theme controls use clear, bright blue accents */
+    --base: hsl(217 91% 60%);
+    --primary: hsl(217 91% 60%);
     --primary-foreground: hsl(0 0% 100%);
-    --secondary: hsl(25 75% 60%);
+    --secondary: hsl(210 85% 48%);
     --secondary-foreground: hsl(0 0% 100%);
 
-    --muted: hsl(240 8% 18%);
-    --muted-foreground: hsl(240 5% 65%);
-    --accent: hsl(25 90% 65%);
-    --accent-foreground: hsl(0 0% 100%);
+    --muted: hsl(0 0% 13%);
+    --muted-foreground: hsl(0 0% 68%);
+    --accent: hsl(217 55% 20%);
+    --accent-foreground: hsl(0 0% 98%);
 
     --destructive: hsl(0 84% 65%);
     --destructive-foreground: hsl(0 0% 100%);
@@ -133,28 +135,28 @@
     --error-foreground: hsl(0 0% 100%);
     --error-bg: hsl(0 84% 15%);
 
-    --border: hsl(240 8% 22%);
-    --input: hsl(240 8% 20%);
-    --ring: hsl(35 65% 55%);
+    --border: hsl(0 0% 20%);
+    --input: hsl(0 0% 18%);
+    --ring: hsl(217 91% 60%);
 
-    --sidebar: hsl(32 40% 18%);
-    --sidebar-background: hsl(32 40% 18%);
-    --sidebar-foreground: hsl(35 25% 88%);
-    --sidebar-primary: hsl(35 65% 55%);
+    --sidebar: hsl(0 0% 6%);
+    --sidebar-background: hsl(0 0% 6%);
+    --sidebar-foreground: hsl(0 0% 96%);
+    --sidebar-primary: hsl(217 91% 60%);
     --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(32 50% 35%);
-    --sidebar-accent-foreground: hsl(35 25% 88%);
-    --sidebar-border: hsl(32 50% 30%);
-    --sidebar-ring: hsl(35 65% 55%);
-    --sidebar-muted: hsl(32 40% 25%);
+    --sidebar-accent: hsl(0 0% 13%);
+    --sidebar-accent-foreground: hsl(0 0% 96%);
+    --sidebar-border: hsl(0 0% 18%);
+    --sidebar-ring: hsl(217 91% 60%);
+    --sidebar-muted: hsl(0 0% 14%);
 
 
-    --chart-1: hsl(30 70% 58%);
-    --chart-2: hsl(175 65% 52%);
-    --chart-3: hsl(25 90% 65%);
-    --chart-4: hsl(142 76% 52%);
-    --chart-5: hsl(280 60% 65%);
-    --chart-6: hsl(0 84% 68%);
+    --chart-1: hsl(217 91% 65%);
+    --chart-2: hsl(195 92% 65%);
+    --chart-3: hsl(38 96% 62%);
+    --chart-4: hsl(155 72% 54%);
+    --chart-5: hsl(340 82% 68%);
+    --chart-6: hsl(200 90% 70%);
 
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
     --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.6), 0 1px 2px -1px rgb(0 0 0 / 0.6);
@@ -392,8 +394,8 @@ body {
 }
 
 @media (prefers-contrast: high) {
-    :root { --border: hsl(30 20% 70%); --ring: hsl(30 100% 40%); }
-    .dark  { --border: hsl(240 8% 40%); --ring: hsl(30 100% 60%); }
+    :root { --border: hsl(220 12% 65%); --ring: hsl(0 0% 8%); }
+    .dark  { --border: hsl(0 0% 40%); --ring: hsl(217 91% 65%); }
 }
 
 @media print {

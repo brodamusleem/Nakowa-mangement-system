@@ -15,10 +15,10 @@ import { supabase } from "@/lib/supabase"
 export function useLogin() {
   const { setAuth } = useAuthStore()
   return useMutation<LoginResponse, Error, LoginPayload>({
-    mutationFn: async ({ email, pin }) => {
+    mutationFn: async ({ email, password }) => {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        password: pin,
+        password,
       })
       if (error) throw new Error(error.message)
       if (!data.user || !data.session) throw new Error("Unable to sign in")
