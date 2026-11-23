@@ -35,8 +35,8 @@ export function PageHeader({
   }
 
   return (
-    <header className="flex items-center justify-between border-b bg-card px-4 md:px-6 py-3 md:py-4">
-      <div className="flex items-center gap-3">
+    <header className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b bg-card px-4 py-3 md:px-6 md:py-4">
+      <div className="flex min-w-0 flex-1 items-center gap-2 md:gap-3">
         {showBackButton && (
           <Button
             variant="ghost"
@@ -47,11 +47,11 @@ export function PageHeader({
             <ChevronLeft className="h-5 w-5" />
           </Button>
         )}
-        {icon && <div className="text-primary">{icon}</div>}
-        <h1 className="text-lg md:text-xl font-bold">{title}</h1>
+        {icon && <div className="shrink-0 text-primary">{icon}</div>}
+        <h1 className="truncate text-lg font-bold md:text-xl">{title}</h1>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="ml-auto flex max-w-full items-center justify-end gap-2">
         {rightContent}
         <Button
           variant="outline"

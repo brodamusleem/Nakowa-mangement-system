@@ -41,9 +41,10 @@ export default function AdminDashboardLayout() {
   const NAV = user?.role === "manager" ? MANAGER_NAV : ADMIN_NAV
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex min-h-screen bg-background lg:h-screen lg:overflow-hidden">
+      <div className="flex min-w-0 flex-1 flex-col lg:flex-row">
       {/* Sidebar */}
-      <aside className="flex w-60 flex-col border-r bg-card">
+      <aside className="hidden w-60 shrink-0 flex-col border-r bg-card lg:flex">
         {/* Brand */}
         <div className="flex items-center gap-3 border-b px-4 py-4">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
@@ -103,10 +104,50 @@ export default function AdminDashboardLayout() {
         </div>
       </aside>
 
+      {/* Compact navigation for phones and tablets */}
+      <div className="border-b bg-card lg:hidden">
+        <div className="flex items-center justify-between gap-3 px-4 py-3">
+          <div className="flex min-w-0 items-center gap-2">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary">
+              <ChefHat className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold leading-none">Nakowa Events</p>
+              <p className="mt-1 truncate text-xs capitalize text-muted-foreground">{user?.role} · {user?.name}</p>
+            </div>
+          </div>
+          <Button variant="ghost" size="icon" onClick={logout} title="Logout" aria-label="Logout">
+            <LogOut className="h-4 w-4" />
+          </Button>
+        </div>
+        {!isOnline && (
+          <div className="mx-4 mb-2 rounded-md bg-yellow-100 px-3 py-2 text-xs text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+            Offline — {queueLength} queued
+          </div>
+        )}
+        <nav aria-label="Main navigation" className="flex gap-1 overflow-x-auto border-t px-3 py-2">
+          {NAV.map(({ label, to, icon: Icon, end }) => (
+            <NavLink
+              key={label}
+              to={to}
+              end={end}
+              className={({ isActive }) => cn(
+                "flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              )}
+            >
+              <Icon className="h-4 w-4" />
+              {label}
+            </NavLink>
+          ))}
+        </nav>
+      </div>
+
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="min-w-0 flex-1 overflow-x-hidden lg:overflow-y-auto">
         <Outlet />
       </main>
+      </div>
     </div>
   )
 }

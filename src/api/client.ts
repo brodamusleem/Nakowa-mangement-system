@@ -10,6 +10,28 @@ function databaseError(error: { message: string } | null) {
   if (error) throw new Error(error.message)
 }
 
+function localDayBounds(offsetDays = 0) {
+  const start = new Date()
+  start.setHours(0, 0, 0, 0)
+  start.setDate(start.getDate() + offsetDays)
+  const end = new Date(start)
+  end.setDate(end.getDate() + 1)
+  return { start: start.toISOString(), end: end.toISOString() }
+}
+
+function localMonthBounds() {
+  const start = new Date()
+  start.setDate(1)
+  start.setHours(0, 0, 0, 0)
+  const end = new Date(start)
+  end.setMonth(end.getMonth() + 1)
+  return { start: start.toISOString(), end: end.toISOString() }
+}
+
+function isSuccessfulTransaction(transaction: { status: string }) {
+  return transaction.status === "paid" || transaction.status === "completed"
+}
+
 function mapCategory(row: any) {
   return row && {
     ...row,
@@ -206,24 +228,37 @@ async function getResource(path: string, config?: RequestConfig): Promise<Respon
 
   if (path === "/analytics/summary") {
     const [transactions, orders, inventory, events] = await Promise.all([
-      supabase.from("transactions").select("amount,status"),
-      supabase.from("orders").select("payment_status"),
+      supabase.from("transactions").select("amount,status,created_at"),
+      supabase.from("orders").select("payment_status,status,created_at"),
       supabase.from("inventory").select("quantity,min_quantity"),
       supabase.from("events").select("status"),
     ])
 
-    const paidTransactions = (transactions.data || []).filter((item) => item.status === "paid")
+    databaseError(transactions.error)
+    databaseError(orders.error)
+    databaseError(inventory.error)
+    databaseError(events.error)
+
+    const allTransactions = transactions.data || []
+    const successfulTransactions = allTransactions.filter(isSuccessfulTransaction)
+    const todayBounds = localDayBounds()
+    const todayTransactions = successfulTransactions.filter(
+      (item) => item.created_at >= todayBounds.start && item.created_at < todayBounds.end
+    )
+    const todayOrders = (orders.data || []).filter(
+      (item) => item.status !== "cancelled" && item.created_at >= todayBounds.start && item.created_at < todayBounds.end
+    )
     return {
       data: {
-        totalRevenue: paidTransactions.reduce((sum, item) => sum + Number(item.amount), 0),
-        pendingOrders: (orders.data || []).filter((item) => item.payment_status === "unpaid").length,
+        totalRevenue: successfulTransactions.reduce((sum, item) => sum + Number(item.amount), 0),
+        pendingOrders: (orders.data || []).filter((item) => item.payment_status === "unpaid" && item.status !== "cancelled").length,
         lowStockCount: (inventory.data || []).filter(
           (item) => Number(item.quantity) <= Number(item.min_quantity)
         ).length,
         confirmedEvents: (events.data || []).filter((item) => item.status === "confirmed").length,
-        totalTransactions: paidTransactions.length,
-        totalSales: paidTransactions.reduce((sum, item) => sum + Number(item.amount), 0),
-        totalOrders: (orders.data || []).length,
+        totalTransactions: todayTransactions.length,
+        totalSales: todayTransactions.reduce((sum, item) => sum + Number(item.amount), 0),
+        totalOrders: todayOrders.length,
         totalCustomers: 0,
         totalBookings: (events.data || []).length,
         netProfit: 0,
@@ -233,8 +268,8 @@ async function getResource(path: string, config?: RequestConfig): Promise<Respon
   }
 
   if (path === "/analytics/today" || path === "/analytics/monthly") {
-    const summary = await getResource("/analytics/summary")
     if (path === "/analytics/today") {
+      const summary = await getResource("/analytics/summary")
       return {
         data: {
           totalSales: summary.data.totalSales,
@@ -246,12 +281,34 @@ async function getResource(path: string, config?: RequestConfig): Promise<Respon
         },
       }
     }
+    const monthBounds = localMonthBounds()
+    const { data: monthTransactions, error } = await supabase
+      .from("transactions")
+      .select("amount,status,created_at")
+      .gte("created_at", monthBounds.start)
+      .lt("created_at", monthBounds.end)
+    databaseError(error)
+
+    const successfulMonthTransactions = (monthTransactions || []).filter(isSuccessfulTransaction)
+    const now = new Date()
+    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+    const salesByDay = Array.from({ length: daysInMonth }, (_, index) => ({
+      date: String(index + 1),
+      sales: 0,
+    }))
+    successfulMonthTransactions.forEach((transaction) => {
+      const day = new Date(transaction.created_at).getDate()
+      if (day >= 1 && day <= salesByDay.length) {
+        salesByDay[day - 1].sales += Number(transaction.amount)
+      }
+    })
+    const totalSales = successfulMonthTransactions.reduce((sum, item) => sum + Number(item.amount), 0)
     return {
       data: {
-        totalSales: summary.data.totalSales,
-        totalExpenses: summary.data.totalExpenses,
-        netProfit: summary.data.netProfit,
-        salesByDay: [],
+        totalSales,
+        totalExpenses: 0,
+        netProfit: 0,
+        salesByDay,
       },
     }
   }

@@ -1,7 +1,7 @@
 import { TrendingUp, ShoppingBag, Users, CalendarCheck } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { SystemHealth } from "@/components/SystemHealth"
-import { useAnalyticsSummary, useAnalyticsMonthly, useLowStockItems } from "@/api/hooks"
+import { useAnalyticsSummary, useAnalyticsMonthly, useLowStockItems, useTransactions } from "@/api/hooks"
 import { AdminStatsSkeleton, AdminChartSkeleton } from "@/lib/adminShimmer/AdminShimmer"
 import { formatNaira } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
@@ -14,33 +14,54 @@ export default function AdminDashboard() {
   const { data: summary, isLoading: loadingSummary } = useAnalyticsSummary()
   const { data: monthly, isLoading: loadingMonthly } = useAnalyticsMonthly()
   const { data: lowStock }                            = useLowStockItems()
+  const { data: transactions = [], isLoading: loadingTransactions } = useTransactions()
+  const today = new Date()
+  const sameLocalDay = (value: string, date: Date) => {
+    const parsed = new Date(value)
+    return parsed.getFullYear() === date.getFullYear() && parsed.getMonth() === date.getMonth() && parsed.getDate() === date.getDate()
+  }
+  const successfulTransactions = transactions.filter((transaction) =>
+    transaction.status === "paid" || transaction.status === "completed"
+  )
+  const yesterday = new Date(today)
+  yesterday.setDate(yesterday.getDate() - 1)
+  const todaySales = successfulTransactions
+    .filter((transaction) => sameLocalDay(transaction.createdAt, today))
+    .reduce((sum, transaction) => sum + transaction.amount, 0)
+  const yesterdaySales = successfulTransactions
+    .filter((transaction) => sameLocalDay(transaction.createdAt, yesterday))
+    .reduce((sum, transaction) => sum + transaction.amount, 0)
+  const salesComparison = yesterdaySales > 0
+    ? `${todaySales >= yesterdaySales ? "+" : "−"}${Math.round(Math.abs((todaySales - yesterdaySales) / yesterdaySales) * 100)}% vs yesterday`
+    : todaySales > 0 ? "No sales yesterday" : "No sales today or yesterday"
+  const todayTransactions = successfulTransactions.filter((transaction) => sameLocalDay(transaction.createdAt, today))
 
   const stats = [
     {
       label: "Today's Sales",
-      value: formatNaira(summary?.totalSales ?? 0),
-      sub:   "+15% from yesterday",
+      value: formatNaira(todaySales),
+      sub:   loadingTransactions ? "Loading comparison…" : salesComparison,
       icon:  TrendingUp,
       color: "text-green-600",
     },
     {
-      label: "Total Orders",
+      label: "Orders Today",
       value: String(summary?.totalOrders ?? 0),
       sub:   `${summary?.pendingOrders ?? 0} pending`,
       icon:  ShoppingBag,
       color: "text-blue-600",
     },
     {
-      label: "Customers Today",
-      value: String(summary?.totalCustomers ?? 0),
-      sub:   "+8% this month",
+      label: "Paid Transactions Today",
+      value: String(todayTransactions.length),
+      sub:   "Successful payments",
       icon:  Users,
       color: "text-purple-600",
     },
     {
       label: "Confirmed Events",
       value: String(summary?.confirmedEvents ?? 0),
-      sub:   "This month",
+      sub:   "Current confirmed bookings",
       icon:  CalendarCheck,
       color: "text-orange-600",
     },

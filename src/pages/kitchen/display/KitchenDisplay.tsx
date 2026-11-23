@@ -60,7 +60,7 @@ export default function KitchenDisplay() {
   const recentOnlyOrders = allRecentOrders.filter((order) => !activeOrderIds.has(order.id))
 
   return (
-    <div className="flex h-screen flex-col bg-background">
+    <div className="flex min-h-screen flex-col bg-background lg:h-screen lg:overflow-hidden">
       {/* Header */}
       <PageHeader
         title="Kitchen Display"
@@ -105,16 +105,16 @@ export default function KitchenDisplay() {
       </div>
 
       {/* Board */}
-      <div className="grid flex-1 grid-cols-3 gap-0 overflow-hidden divide-x">
+      <div className="grid flex-1 grid-cols-1 divide-y lg:grid-cols-3 lg:divide-x lg:divide-y-0 lg:overflow-hidden">
         {/* PENDING */}
-        <section className="flex flex-col overflow-hidden">
+        <section className="flex min-h-[280px] flex-col lg:min-h-0 lg:overflow-hidden">
           <div className="flex items-center gap-2 bg-red-50 dark:bg-red-950 px-4 py-3 border-b">
             <span className="h-3 w-3 rounded-full bg-red-500 animate-pulse" />
             <h2 className="font-semibold text-red-700 dark:text-red-300">
               New Orders ({pending.length})
             </h2>
           </div>
-          <div className="flex-1 space-y-3 overflow-y-auto p-3">
+          <div className="flex-1 space-y-3 p-3 lg:overflow-y-auto">
             {pending.length === 0 ? (
               <p className="py-8 text-center text-sm text-muted-foreground">No new orders</p>
             ) : (
@@ -141,14 +141,14 @@ export default function KitchenDisplay() {
         </section>
 
         {/* PREPARING */}
-        <section className="flex flex-col overflow-hidden">
+        <section className="flex min-h-[280px] flex-col lg:min-h-0 lg:overflow-hidden">
           <div className="flex items-center gap-2 bg-yellow-50 dark:bg-yellow-950 px-4 py-3 border-b">
             <span className="h-3 w-3 rounded-full bg-yellow-500 animate-pulse" />
             <h2 className="font-semibold text-yellow-700 dark:text-yellow-300">
               Preparing ({preparing.length})
             </h2>
           </div>
-          <div className="flex-1 space-y-3 overflow-y-auto p-3">
+          <div className="flex-1 space-y-3 p-3 lg:overflow-y-auto">
             {preparing.length === 0 ? (
               <p className="py-8 text-center text-sm text-muted-foreground">Nothing cooking yet</p>
             ) : (
@@ -176,14 +176,14 @@ export default function KitchenDisplay() {
         </section>
 
         {/* READY */}
-        <section className="flex flex-col overflow-hidden">
+        <section className="flex min-h-[280px] flex-col lg:min-h-0 lg:overflow-hidden">
           <div className="flex items-center gap-2 bg-green-50 dark:bg-green-950 px-4 py-3 border-b">
             <span className="h-3 w-3 rounded-full bg-green-500" />
             <h2 className="font-semibold text-green-700 dark:text-green-300">
               Ready ({ready.length})
             </h2>
           </div>
-          <div className="flex-1 space-y-3 overflow-y-auto p-3">
+          <div className="flex-1 space-y-3 p-3 lg:overflow-y-auto">
             {ready.length === 0 ? (
               <p className="py-8 text-center text-sm text-muted-foreground">No orders ready yet</p>
             ) : (

@@ -193,7 +193,7 @@ export default function POSPage() {
         </div>
 
         <div className="md:col-span-1 space-y-4">
-          <Card className="sticky top-4">
+          <Card className="md:sticky md:top-4">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <ShoppingCart className="h-5 w-5" />

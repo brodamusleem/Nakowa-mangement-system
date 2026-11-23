@@ -5,16 +5,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { TrendingUp, Users, ShoppingCart, Clock, ArrowRight, DollarSign, CalendarCheck } from "lucide-react"
 import { useAnalyticsSummary, useAnalyticsMonthly, useEvents, useTransactions } from "@/api/hooks"
 
-const fallbackSalesData = [
-  { date: "Mon", sales: 120000 },
-  { date: "Tue", sales: 135000 },
-  { date: "Wed", sales: 145000 },
-  { date: "Thu", sales: 160000 },
-  { date: "Fri", sales: 195000 },
-  { date: "Sat", sales: 240000 },
-  { date: "Sun", sales: 185000 },
-]
-
 const transactionPalette = ["hsl(213 100% 50%)", "hsl(142 76% 36%)", "hsl(38 92% 50%)", "hsl(330 84% 55%)"]
 
 export default function ManagerDashboard() {
@@ -58,14 +48,9 @@ export default function ManagerDashboard() {
     }
   }, [events])
 
-  const salesTimeline = monthly?.salesByDay?.length ? monthly.salesByDay : fallbackSalesData
-  const annualRevenue = yearTransactions.reduce((sum, txn) => sum + txn.amount, 0)
-  const monthlyRevenue = monthly?.totalSales ?? 0
-  const monthlyProfit = monthly?.netProfit ?? 0
+  const salesTimeline = monthly?.salesByDay ?? []
   const todayRevenue = summary?.totalSales ?? 0
   const totalOrders = summary?.totalOrders ?? 0
-  const activeCustomers = summary?.totalCustomers ?? 0
-  const avgOrderTime = 18
 
   const managerRoutes = [
     { label: "Dashboard", href: "/manager", description: "Overview and analytics", icon: TrendingUp },
@@ -138,10 +123,10 @@ export default function ManagerDashboard() {
           <CardContent className="pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-muted-foreground md:text-sm">Active Customers</p>
-                <p className="text-lg font-bold md:text-2xl">{activeCustomers}</p>
+                <p className="text-xs text-muted-foreground md:text-sm">Confirmed Events</p>
+                <p className="text-lg font-bold md:text-2xl">{isLoading ? "..." : summary?.confirmedEvents ?? 0}</p>
               </div>
-              <Users className="h-8 w-8 text-primary opacity-20" />
+              <CalendarCheck className="h-8 w-8 text-primary opacity-20" />
             </div>
           </CardContent>
         </Card>
@@ -149,8 +134,8 @@ export default function ManagerDashboard() {
           <CardContent className="pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-muted-foreground md:text-sm">Avg Order Time</p>
-                <p className="text-lg font-bold md:text-2xl">{avgOrderTime}m</p>
+                <p className="text-xs text-muted-foreground md:text-sm">Paid Transactions Today</p>
+                <p className="text-lg font-bold md:text-2xl">{isLoading ? "..." : summary?.totalTransactions ?? 0}</p>
               </div>
               <Clock className="h-8 w-8 text-primary opacity-20" />
             </div>
