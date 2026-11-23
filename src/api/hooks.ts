@@ -3,22 +3,46 @@ import { apiClient } from "./client"
 import { queryKeys } from "./queryKeys"
 import type { Order, CreateOrderPayload, OrderItem } from "@/types/orderTypes"
 import type { Category, MenuItem, Table } from "@/types/menuTypes"
-import type { User, LoginPayload, LoginResponse } from "@/types/userTypes"
+import type { User, LoginPayload, LoginResponse, CreateUserPayload } from "@/types/userTypes"
 import type {
   AnalyticsSummary, TodayAnalytics, MonthlyAnalytics,
   InventoryItem, HallEvent, Transaction,
 } from "@/types/analyticsTypes"
 import { useAuthStore } from "@/state/authStore"
+import { supabase } from "@/lib/supabase"
 
 // ── AUTH ──────────────────────────────────────────────────────────────────────
 export function useLogin() {
   const { setAuth } = useAuthStore()
   return useMutation<LoginResponse, Error, LoginPayload>({
-    mutationFn: (data) => apiClient.post("/auth/login", data).then((r) => r.data),
-    onSuccess: ({ user, token }) => {
-      localStorage.setItem("nakowa_token", token)
-      setAuth(user, token)
+    mutationFn: async ({ email, pin }) => {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password: pin,
+      })
+      if (error) throw new Error(error.message)
+      if (!data.user || !data.session) throw new Error("Unable to sign in")
+
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("id,legacy_id,name,email,role,avatar,active")
+        .eq("id", data.user.id)
+        .single()
+
+      if (profileError) throw new Error(profileError.message)
+
+      const user: User = {
+        id: profile.legacy_id || profile.id,
+        name: profile.name,
+        email: profile.email,
+        role: profile.role,
+        avatar: profile.avatar,
+        active: profile.active,
+      }
+
+      return { user, token: data.session.access_token }
     },
+    onSuccess: ({ user, token }) => setAuth(user, token),
   })
 }
 
@@ -350,7 +374,7 @@ export function useUsers() {
 
 export function useCreateUser() {
   const qc = useQueryClient()
-  return useMutation<User, Error, Omit<User, "id" | "active">>({
+  return useMutation<User, Error, CreateUserPayload>({
     mutationFn: (data) => apiClient.post("/users", data).then((r) => r.data),
     onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.users }),
   })

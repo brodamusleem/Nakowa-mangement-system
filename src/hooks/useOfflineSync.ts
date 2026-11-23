@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
+import { apiClient } from "@/api/client"
 
 const DB_NAME = "nakowa_offline"
 const STORE   = "queue"
@@ -51,15 +52,11 @@ export function useOfflineSync() {
     if (!queue.length) return
 
     setIsSyncing(true)
-    const base = import.meta.env.VITE_API_URL || "http://localhost:3001/api"
-
     try {
       for (const item of queue) {
-        await fetch(`${base}${item.endpoint}`, {
-          method: item.method,
-          headers: { "Content-Type": "application/json" },
-          body: item.body ? JSON.stringify(item.body) : undefined,
-        })
+        if (item.method === "POST") await apiClient.post(item.endpoint, item.body)
+        if (item.method === "PATCH") await apiClient.patch(item.endpoint, item.body)
+        if (item.method === "DELETE") await apiClient.delete(item.endpoint)
       }
       await clearQueue()
       setQueueLength(0)

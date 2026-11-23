@@ -9,6 +9,10 @@ export interface User {
   active: boolean
 }
 
+export interface CreateUserPayload extends Omit<User, "id" | "active"> {
+  password: string
+}
+
 export interface AuthState {
   user: User | null
   token: string | null

@@ -32,7 +32,7 @@ export default function AdminUsers() {
   const [showModal, setShowModal] = useState(false)
   const [editingUser, setEditingUser] = useState<User | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
-  const [formData, setFormData] = useState({ name: "", email: "", role: "cashier" as const })
+  const [formData, setFormData] = useState({ name: "", email: "", role: "cashier" as const, password: "" })
 
   const filtered = users.filter(
     (u) =>
@@ -42,18 +42,22 @@ export default function AdminUsers() {
 
   const handleOpenAddUser = () => {
     setEditingUser(null)
-    setFormData({ name: "", email: "", role: "cashier" })
+    setFormData({ name: "", email: "", role: "cashier", password: "" })
     setShowModal(true)
   }
 
   const handleOpenEditUser = (user: User) => {
     setEditingUser(user)
-    setFormData({ name: user.name, email: user.email, role: user.role as any })
+    setFormData({ name: user.name, email: user.email, role: user.role as any, password: "" })
     setShowModal(true)
   }
 
   const handleSaveUser = async () => {
-    if (!formData.name || !formData.email) {
+    if (!formData.name || !formData.email || (!editingUser && formData.password.length < 8)) {
+      if (!editingUser && formData.password.length < 8) {
+        toast.error("Set an initial password with at least 8 characters")
+        return
+      }
       toast.error("Please fill all fields")
       return
     }
@@ -63,7 +67,7 @@ export default function AdminUsers() {
         await updateUser.mutateAsync({ id: editingUser.id, ...formData })
         toast.success("User updated successfully")
       } else {
-        await createUser.mutateAsync(formData as any)
+        await createUser.mutateAsync({ ...formData, avatar: null })
         toast.success("User created successfully")
       }
       setShowModal(false)
@@ -191,6 +195,19 @@ export default function AdminUsers() {
                 placeholder="user@example.com"
               />
             </div>
+            {!editingUser && (
+              <div>
+                <Label htmlFor="password">Initial password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  autoComplete="new-password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  placeholder="At least 8 characters"
+                />
+              </div>
+            )}
             <div>
               <Label htmlFor="role">Role</Label>
               <Select value={formData.role} onValueChange={(role) => setFormData({ ...formData, role: role as any })}>
